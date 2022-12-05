@@ -1,5 +1,5 @@
 class Task {
-    constructor (name, details, priority = "Normal", date = "No Date") {
+    constructor (name, details = "No details", priority = "Normal", date = "No date") {
         this.name = name;
         this.details = details;
         this.priority = priority;
@@ -32,7 +32,7 @@ class Task {
 }
 
 class Project {
-    constructor (name, details) {
+    constructor (name, details = "No details") {
         this.name = name;
         this.details = details;
         this.taskList = [];
@@ -66,4 +66,25 @@ class Project {
     }
 }
 
-export { Task, Project };
+class Wrap {
+    constructor () {
+        this.projectList = [];
+    }
+    getProjects() {
+        return this.projects;
+    }
+    setProjects(newProjectList) {
+        this.projectList = newProjectList;
+    }
+    getProject (project) {
+        return this.projectList.find(listItem => listItem.getName() == project); 
+    }
+    addProject (newProject) {
+        this.projectList.push(newProject);
+    }
+    removeProject (project) {
+        this.projectList = this.projectList.filter(listItem => listItem.getName() !== project);
+    }
+}
+
+export { Task, Project, Wrap };
