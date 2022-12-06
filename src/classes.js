@@ -1,88 +1,88 @@
 class Task {
-    constructor (name, details = "No details", priority = "Normal", date = "No date") {
+    constructor(name, details = "No details", priority = "Normal", date = "No date") {
         this.name = name;
         this.details = details;
         this.priority = priority;
         this.date = date;
     }
-    getName () {
+    getName() {
         return this.name;
     }
-    setName (newName) {
+    setName(newName) {
         this.name = newName;
     }
-    getDetails () {
+    getDetails() {
         return this.details;
     }
-    setDetails (newDetails) {
+    setDetails(newDetails) {
         this.details = newDetails;
     }
-    getDate () {
+    getDate() {
         return this.date;
     }
-    setDate (newDate) {
+    setDate(newDate) {
         this.date = newDate;
     }
-    getPriority () {
+    getPriority() {
         return this.priority;
     }
-    setPriority (newPriority) {
+    setPriority(newPriority) {
         this.priority = newPriority;
     }
 }
 
 class Project {
-    constructor (name, details = "No details") {
+    constructor(name, details = "No details") {
         this.name = name;
         this.details = details;
         this.taskList = [];
     }
-    getName () {
+    getName() {
         return this.name;
     }
-    setName (newName) {
+    setName(newName) {
         this.name = newName;
     }
-    getDetails () {
+    getDetails() {
         return this.details;
     }
-    setDetails (newDetails) {
+    setDetails(newDetails) {
         this.details = newDetails;
     }
-    getTaskList () {
+    getTaskList() {
         return this.taskList;
     }
-    setTaskList (newTaskList) {
+    setTaskList(newTaskList) {
         this.taskList = newTaskList;
     }
-    getTask (task) {
+    getTask(task) {
         return this.taskList.find(listItem => listItem.getName() == task); 
     }
-    addTask (newTask) {
+    addTask(newTask) {
         this.taskList.push(newTask);
     }
-    removeTask (task) {
+    removeTask(task) {
         this.taskList = this.taskList.filter(listItem => listItem.getName() !== task);
     }
 }
 
 class Wrap {
-    constructor () {
+    constructor() {
         this.projectList = [];
     }
-    getProjects () {
+    getProjectList() {
         return this.projects;
     }
-    setProjects (newProjectList) {
+    setProjectList(newProjectList) {
         this.projectList = newProjectList;
     }
-    getProject (project) {
+    getProject(project) {
         return this.projectList.find(listItem => listItem.getName() == project); 
     }
-    addProject (newProject) {
+    addProject(newProject) {
         this.projectList.push(newProject);
     }
-    removeProject (project) {
+    removeProject(project) {
         this.projectList = this.projectList.filter(listItem => listItem.getName() !== project);
     }
 }

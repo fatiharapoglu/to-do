@@ -56,9 +56,10 @@ class DOM {
         let newTask = new Task (task, details, priority, date);
         let activeProject = this.getActiveProject();
         console.log(activeProject)
-        activeProject.taskList.push(newTask);
+        activeProject.addTask(newTask);
         this.closeNewTaskModal();
-        console.log(activeProject.taskList);
+        console.log(activeProject.getTaskList());
+        this.renderTasks();
     }
     static addNewProject() {
         const projectDOM = document.getElementById("project");
@@ -66,12 +67,22 @@ class DOM {
         let project = projectDOM.value;
         let details = projectDetailsDOM.value;
         let newProject = new Project (project, details);
-        wrapper.projectList.push(newProject);
+        wrapper.addProject(newProject);
         this.closeNewProjectModal();
-        console.log(wrapper.projectList);
+        console.log(wrapper.getProjectList());
     }
     static getActiveProject() {
         return defaultProject;
+    }
+    static renderTasks() {
+        const contentDOM = document.querySelector("#content");
+        contentDOM.innerHTML = ""
+        let activeProject = this.getActiveProject().getTaskList();
+        for (let task of activeProject) {
+            contentDOM.innerHTML += `
+            Name : ${task.getName()}
+            `
+        }
     }
 }
 
