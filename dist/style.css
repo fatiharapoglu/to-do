@@ -5,6 +5,8 @@
     --secondary-color: #a7a1c7;
     --third-color: #00010e;
     --background-primary: rgb(0, 0, 0);
+    --black: black;
+    --white: white;
 }
 
 * {
@@ -28,6 +30,7 @@ a {
 body {
     min-height: 100vh;
     background-color: var(--background-primary);
+    position: relative;
 }
 
 .header {
@@ -114,3 +117,56 @@ footer .about {
     text-decoration: none;
 }
 
+.hidden {
+    display: none;
+}
+
+.input {
+    width: 100%;
+    color: var(--black);
+    background-color: var(--secondary-color);
+    border: 1px solid var(--third-color);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.label {
+    color: var(--black);
+}
+
+.modal {
+    position: absolute;
+    width: 30vw;
+    top: 0;
+    left: 50%;
+    margin-top: 10vh;
+    transform: translateX(-50%);
+    padding: 20px;
+    background-color: var(--secondary-color);
+}
+
+#close-task-modal-btn, #close-project-modal-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.modal form {
+    display: flex;
+    flex-direction: column;
+}
+
+.center {
+    align-self: center;
+}
+
+.btn {
+    border: none;
+    border-radius: 10px;
+    color: var(--primary-color);
+    background-color: var(--third-color);
+    width: 100px;
+    height: 25px;
+    font-size: 14px;
+}
