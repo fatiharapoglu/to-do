@@ -70,10 +70,10 @@ class Wrap {
     constructor () {
         this.projectList = [];
     }
-    getProjects() {
+    getProjects () {
         return this.projects;
     }
-    setProjects(newProjectList) {
+    setProjects (newProjectList) {
         this.projectList = newProjectList;
     }
     getProject (project) {
