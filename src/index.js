@@ -25,14 +25,20 @@ console.log(deneme.taskList)
 let dom = document.getElementById("content");
 for (let i=0; i<deneme.taskList.length; i++) {
     dom.innerHTML += `
-    Name: ${deneme.taskList[i].name} <br>
-    Details: ${deneme.taskList[i].details} <br>
-    Priority: ${deneme.taskList[i].priority} <br>
-    Date: ${deneme.taskList[i].date} <br>
-    <br>`
+    <div>
+        Name: ${deneme.taskList[i].name} <br>
+        Details: ${deneme.taskList[i].details} <br>
+        Priority: ${deneme.taskList[i].priority} <br>
+        Date: ${deneme.taskList[i].date} <br>
+        <br>
+    </div>
+    `
 }
 
 let wrap = new Wrap();
 wrap.addProject(deneme);
 console.log(wrap.projectList[0].taskList);
 
+console.table(wrap.projectList);
+wrap.removeProject(deneme.getName());
+console.log(wrap.projectList)
