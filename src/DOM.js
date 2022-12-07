@@ -5,10 +5,16 @@ class DOM {
     static defaultProject = new Project(" myTask", "This is the default project");
     static pushDefault() {
         this.wrapper.projectList.push(this.defaultProject);
+        this.activeProject = this.defaultProject;
+        this.renderProjects();
     }
+    static activeProject = this.defaultProject;
     static getDefaultHome() {
         this.buttonHandlers();
         this.pushDefault();
+        this.renderProjects();
+        this.renderTasks();
+        this.selectProject();
     }
     static buttonHandlers() {
         const newTaskBtnDOM = document.querySelector("#new-task-btn");
@@ -59,12 +65,14 @@ class DOM {
             date = undefined;
         }
         let newTask = new Task(task, details, priority, date);
-        let activeProject = this.getActiveProject();
-        activeProject.addTask(newTask);
+        this.getActiveProject().addTask(newTask);
         this.closeNewTaskModal();
-        this.renderTasks();
         this.clearForm();
-        console.log(activeProject.getTaskList());
+        this.renderTasks();
+        if (this.wrapper.getProjectList().length == 0) {
+            this.pushDefault();
+        }
+        console.log(this.wrapper.getProjectList());
     }
     static addNewProject() {
         const projectDOM = document.getElementById("project");
@@ -72,14 +80,41 @@ class DOM {
         let project = projectDOM.value;
         let details = projectDetailsDOM.value;
         let newProject = new Project(project, details);
+        let ID = newProject.getUniqueID();
         this.wrapper.addProject(newProject);
         this.closeNewProjectModal();
-        this.renderProjects();
         this.clearForm();
+        this.setActiveProject(ID);
+        this.renderProjects();
+        this.renderTasks();
         console.log(this.wrapper.getProjectList());
     }
+    static initRemoveTask() {
+        const removeTaskButtons = document.querySelectorAll(".close-btn-task");
+        removeTaskButtons.forEach(button => button.addEventListener('click', event => {
+            let index = this.getActiveProject().getTaskList().findIndex(task => task.getUniqueID() == event.target.id);
+            this.getActiveProject().getTaskList().splice(index, 1);
+            this.renderTasks();
+        }))
+    }
+    static initRemoveProject() {
+        const removeProjectButtons = document.querySelectorAll(".close-btn-project");
+        removeProjectButtons.forEach(button => button.addEventListener('click', event => {
+            let index = this.wrapper.getProjectList().findIndex(project => project.getUniqueID() == event.target.id);
+            if (event.target.parentNode.querySelector("a").textContent == " myTask") return;
+            if (this.getActiveProject().getUniqueID() == event.target.id) { 
+                this.activeProject = this.defaultProject;
+            }
+            this.wrapper.getProjectList().splice(index, 1);
+            this.renderProjects();
+            this.renderTasks();
+        }))
+    }
+    static setActiveProject(ID) {
+        this.activeProject = this.wrapper.getProject(ID);
+    }
     static getActiveProject() {
-        return this.defaultProject;
+        return this.activeProject;
     }
     static renderTasks() {
         const contentDOM = document.querySelector("#content");
@@ -87,9 +122,16 @@ class DOM {
         let activeProject = this.getActiveProject().getTaskList();
         for (let task of activeProject) {
             contentDOM.innerHTML += `
-            <div class="task-item"> Name : ${task.getName()} </div>
+            <div class="task-item">
+                <div>
+                    <input type="checkbox" name="checkbox">
+                    <label for="checkbox">${task.getName()}</label>
+                </div>
+                <div id="${task.getUniqueID()}" class="close-btn-task">x</div>
+            </div>
             `
         }
+        this.initRemoveTask();
     }
     static renderProjects() {
         const projectListDOM = document.querySelector("#project-list");
@@ -98,12 +140,16 @@ class DOM {
         for (let project of projects) {
             projectListDOM.innerHTML += `
             <li>
-                <a href="#">
-                    ${ project.getName().charAt(0).toUpperCase() + project.getName().slice(1) }
-                </a>
+                <div class="project-item" id="${project.getUniqueID()}">
+                    <a href="#">${ project.getName().charAt(0).toUpperCase() + project.getName().slice(1) }</a>
+                </div>
+                <div id="${project.getUniqueID()}" class="close-btn-project">x</div>
             </li>
             `
         }
+        this.initRemoveProject();
+        this.selectProject();
+        this.highlightActive();
     }
     static clearForm() {
         const taskDOM = document.getElementById("task");
@@ -114,6 +160,21 @@ class DOM {
         taskDetailsDOM.value = "";
         projectDOM.value = "";
         projectDetailsDOM.value = "";
+    }
+    static highlightActive() {
+        let ID = this.getActiveProject().getUniqueID();
+        if (this.wrapper.getProjectList().length == 0) {
+            this.pushDefault();
+        }
+        document.getElementById(ID).parentNode.querySelector(".project-item").classList.add("active-project");
+    }
+    static selectProject() {
+        const projects = document.querySelectorAll(".project-item");
+        projects.forEach(project => project.addEventListener('click', event => {
+            this.setActiveProject(event.target.parentNode.id);
+            this.renderProjects();
+            this.renderTasks();
+        }))
     }
 }
 

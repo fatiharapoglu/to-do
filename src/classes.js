@@ -4,12 +4,16 @@ class Task {
         this.details = details;
         this.priority = priority;
         this.date = date;
+        this.uniqueID = Date.now();
     }
     getName() {
         return this.name;
     }
     setName(newName) {
         this.name = newName;
+    }
+    getUniqueID() {
+        return this.uniqueID;
     }
     getDetails() {
         return this.details;
@@ -36,12 +40,16 @@ class Project {
         this.name = name;
         this.details = details;
         this.taskList = [];
+        this.uniqueID = Date.now();
     }
     getName() {
         return this.name;
     }
     setName(newName) {
         this.name = newName;
+    }
+    getUniqueID() {
+        return this.uniqueID;
     }
     getDetails() {
         return this.details;
@@ -55,14 +63,14 @@ class Project {
     setTaskList(newTaskList) {
         this.taskList = newTaskList;
     }
-    getTask(task) {
-        return this.taskList.find(listItem => listItem.getName() == task); 
+    getTask(ID) {
+        return this.taskList.find(listItem => listItem.getUniqueID() == ID); 
     }
     addTask(newTask) {
         this.taskList.push(newTask);
     }
-    removeTask(task) {
-        this.taskList = this.taskList.filter(listItem => listItem.getName() !== task);
+    removeTask(ID) {
+        this.taskList = this.taskList.filter(listItem => listItem.getUniqueID() == ID);
     }
 }
 
@@ -76,14 +84,14 @@ class Wrap {
     setProjectList(newProjectList) {
         this.projectList = newProjectList;
     }
-    getProject(project) {
-        return this.projectList.find(listItem => listItem.getName() == project); 
+    getProject(ID) {
+        return this.projectList.find(listItem => listItem.getUniqueID() == ID); 
     }
     addProject(newProject) {
         this.projectList.push(newProject);
     }
-    removeProject(project) {
-        this.projectList = this.projectList.filter(listItem => listItem.getName() !== project);
+    removeProject(ID) {
+        this.projectList = this.projectList.filter(listItem => listItem.getUniqueID() == ID);
     }
 }
 
