@@ -23,6 +23,7 @@ class DOM {
         const projectFormDOM = document.querySelector("#project-form");
         const closeNewTaskModalBtnDOM = document.querySelector("#close-task-modal-btn");
         const closeNewProjectModalBtnDOM = document.querySelector("#close-project-modal-btn");
+        const allTasksDOM = document.getElementById("all-tasks");
         newTaskBtnDOM.addEventListener("click", this.openNewTaskModal);
         newProjectBtnDOM.addEventListener("click", this.openNewProjectModal);
         closeNewTaskModalBtnDOM.addEventListener("click", this.closeNewTaskModal);
@@ -35,6 +36,7 @@ class DOM {
             event.preventDefault();
             this.addNewProject();
         });
+        allTasksDOM.addEventListener("click", this.getAllTasks.bind(this));
     }
     static openNewTaskModal() {
         const newTaskModalDOM = document.querySelector("#new-task-modal");
@@ -175,6 +177,25 @@ class DOM {
             this.renderProjects();
             this.renderTasks();
         }))
+    }
+    static getAllTasks() {
+        const contentDOM = document.querySelector("#content");
+        contentDOM.innerHTML = ""
+        let projects = this.wrapper.getProjectList();
+        for (let project of projects) {
+            let array = project.getTaskList()
+            for (let i=0; i<array.length; i++) {
+                contentDOM.innerHTML += `
+                <div class="task-item">
+                    <div>
+                        <input type="checkbox" name="checkbox">
+                        <label for="checkbox">${array[i].getName()}</label>
+                    </div>
+                    <div id="${array[i].getUniqueID()}" class="close-btn-task">x</div>
+                </div>
+                `
+            }
+        }
     }
 }
 
