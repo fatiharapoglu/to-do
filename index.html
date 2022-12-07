@@ -38,13 +38,28 @@
                     <li><a href="#">High Priority</a></li>
                 </ul>
                 <h1>Projects</h1>
-                <ul>
-                    <li id="new-project-btn"><a href="#">New Project</a></li>
+                <ul id="project-list">
+                    <!-- project-list render -->
+                    <li>
+                        <a href="#">
+                            myTask
+                        </a>
+                    </li>
                 </ul>
+                <div class="new-project-btn" id="new-project-btn">
+                    <a href="#">New Project +</a>
+                </div> 
             </div>
             <section class="main">
-                <div id="content">
-                    <!-- javascript created content -->
+                <div class="content" id="content">
+                    <!-- task render -->
+                    <div class="task-item">
+                        <div>
+                            <input type="checkbox" name="checkbox">
+                            <label for="checkbox">Name: annen</label>
+                        </div> 
+                        <div class="close-btn">x</div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -60,9 +75,9 @@
         </div>
     </footer>
     <div id="new-task-modal" class="hidden modal">
-        <div id="close-task-modal-btn">x</div>
+        <div class="close-btn" id="close-task-modal-btn">x</div>
         <form action="#" method="get" id="task-form" autocomplete="off">
-            <label class="label" for="task">Task name:</label>
+            <label class="label" for="task">Task:</label>
             <input class="input" type="text" id="task" name="task" placeholder="eg. add a night mode" required><br>
             <label class="label" for="details">Details:</label>
             <textarea class="input" type="text" id="task-details" name="details" placeholder="eg. it will have two icons, one sun and one moon"></textarea><br>
@@ -78,7 +93,7 @@
         </form>
     </div>
     <div id="new-project-modal" class="hidden modal">
-        <div id="close-project-modal-btn">x</div>
+        <div class="close-btn" id="close-project-modal-btn">x</div>
         <form action="#" method="get" id="project-form" autocomplete="off">
             <label class="label" for="project">Project name:</label>
             <input class="input" type="text" id="project" name="project" placeholder="eg. odin project" required><br>
