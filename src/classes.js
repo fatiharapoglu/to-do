@@ -71,7 +71,7 @@ class Wrap {
         this.projectList = [];
     }
     getProjectList() {
-        return this.projects;
+        return this.projectList;
     }
     setProjectList(newProjectList) {
         this.projectList = newProjectList;

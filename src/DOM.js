@@ -1,21 +1,26 @@
 import { Task, Project, Wrap } from "./classes.js"
-import { wrapper, defaultProject } from "./index.js"
 
 class DOM {
+    static wrapper = new Wrap();
+    static defaultProject = new Project(" myTask", "This is the default project");
+    static pushDefault() {
+        this.wrapper.projectList.push(this.defaultProject);
+    }
     static getDefaultHome() {
         this.buttonHandlers();
+        this.pushDefault();
     }
     static buttonHandlers() {
         const newTaskBtnDOM = document.querySelector("#new-task-btn");
         const newProjectBtnDOM = document.querySelector("#new-project-btn");
         const taskFormDOM = document.querySelector("#task-form");
         const projectFormDOM = document.querySelector("#project-form");
-        const closeNewTaskModalBtn = document.querySelector("#close-task-modal-btn");
-        const closeNewProjectModalBtn = document.querySelector("#close-project-modal-btn");
+        const closeNewTaskModalBtnDOM = document.querySelector("#close-task-modal-btn");
+        const closeNewProjectModalBtnDOM = document.querySelector("#close-project-modal-btn");
         newTaskBtnDOM.addEventListener("click", this.openNewTaskModal);
         newProjectBtnDOM.addEventListener("click", this.openNewProjectModal);
-        closeNewTaskModalBtn.addEventListener("click", this.closeNewTaskModal);
-        closeNewProjectModalBtn.addEventListener("click", this.closeNewProjectModal);
+        closeNewTaskModalBtnDOM.addEventListener("click", this.closeNewTaskModal);
+        closeNewProjectModalBtnDOM.addEventListener("click", this.closeNewProjectModal);
         taskFormDOM.addEventListener('submit', (event) => {
             event.preventDefault();
             this.addNewTask();
@@ -53,36 +58,62 @@ class DOM {
         if (date === "") {
             date = undefined;
         }
-        let newTask = new Task (task, details, priority, date);
+        let newTask = new Task(task, details, priority, date);
         let activeProject = this.getActiveProject();
-        console.log(activeProject)
         activeProject.addTask(newTask);
         this.closeNewTaskModal();
-        console.log(activeProject.getTaskList());
         this.renderTasks();
+        this.clearForm();
+        console.log(activeProject.getTaskList());
     }
     static addNewProject() {
         const projectDOM = document.getElementById("project");
         const projectDetailsDOM = document.getElementById("project-details");
         let project = projectDOM.value;
         let details = projectDetailsDOM.value;
-        let newProject = new Project (project, details);
-        wrapper.addProject(newProject);
+        let newProject = new Project(project, details);
+        this.wrapper.addProject(newProject);
         this.closeNewProjectModal();
-        console.log(wrapper.getProjectList());
+        this.renderProjects();
+        this.clearForm();
+        console.log(this.wrapper.getProjectList());
     }
     static getActiveProject() {
-        return defaultProject;
+        return this.defaultProject;
     }
     static renderTasks() {
         const contentDOM = document.querySelector("#content");
-        contentDOM.innerHTML = ""
+        contentDOM.innerHTML = "";
         let activeProject = this.getActiveProject().getTaskList();
         for (let task of activeProject) {
             contentDOM.innerHTML += `
-            Name : ${task.getName()}
+            <div class="task-item"> Name : ${task.getName()} </div>
             `
         }
+    }
+    static renderProjects() {
+        const projectListDOM = document.querySelector("#project-list");
+        projectListDOM.innerHTML = "";
+        let projects = this.wrapper.getProjectList();
+        for (let project of projects) {
+            projectListDOM.innerHTML += `
+            <li>
+                <a href="#">
+                    ${ project.getName().charAt(0).toUpperCase() + project.getName().slice(1) }
+                </a>
+            </li>
+            `
+        }
+    }
+    static clearForm() {
+        const taskDOM = document.getElementById("task");
+        const taskDetailsDOM = document.getElementById("task-details");
+        const projectDOM = document.getElementById("project");
+        const projectDetailsDOM = document.getElementById("project-details");
+        taskDOM.value = "";
+        taskDetailsDOM.value = "";
+        projectDOM.value = "";
+        projectDetailsDOM.value = "";
     }
 }
 
