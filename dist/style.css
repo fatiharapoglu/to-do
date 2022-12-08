@@ -188,6 +188,7 @@ footer .about {
 
 .project-item {
     width: 100%;
+    padding-right: 35px;
 }
 
 .project-item a {
@@ -195,6 +196,7 @@ footer .about {
     height: 100%;
     padding: 10px;
     display: block;
+    overflow: hidden;
 }
 
 .project-list li {
@@ -214,4 +216,11 @@ footer .about {
 form textarea {
     max-width: 100%;
     min-width: 100px;
+}
+
+.home-project {
+    width: 100%;
+    height: 100%;
+    padding: 3px 10px;
+    display: block;
 }

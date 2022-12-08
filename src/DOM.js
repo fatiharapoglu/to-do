@@ -36,7 +36,7 @@ class DOM {
             event.preventDefault();
             this.addNewProject();
         });
-        allTasksDOM.addEventListener("click", this.getAllTasks.bind(this));
+        allTasksDOM.addEventListener("click", this.renderAllTasks.bind(this));
     }
     static openNewTaskModal() {
         const newTaskModalDOM = document.querySelector("#new-task-modal");
@@ -168,7 +168,11 @@ class DOM {
         if (this.wrapper.getProjectList().length == 0) {
             this.pushDefault();
         }
+        this.removeAllHighlights();
         document.getElementById(ID).parentNode.querySelector(".project-item").classList.add("active-project");
+    }
+    static removeAllHighlights() {
+        document.querySelectorAll(".active-project").forEach(item => item.classList.remove("active-project"));
     }
     static selectProject() {
         const projects = document.querySelectorAll(".project-item");
@@ -178,7 +182,7 @@ class DOM {
             this.renderTasks();
         }))
     }
-    static getAllTasks() {
+    static renderAllTasks() {
         const contentDOM = document.querySelector("#content");
         contentDOM.innerHTML = ""
         let projects = this.wrapper.getProjectList();
@@ -197,6 +201,8 @@ class DOM {
             }
         }
         this.initRemoveForAllTasks();
+        this.removeAllHighlights();
+        document.getElementById("all-tasks").parentNode.classList.add("active-project");
     }
     static initRemoveForAllTasks() {
         const removeTaskButtons = document.querySelectorAll(".close-btn-task");
@@ -210,7 +216,7 @@ class DOM {
                     project.getTaskList().splice(index, 1);
                 }
             }
-            this.getAllTasks();
+            this.renderAllTasks();
         }))
     }
 }
