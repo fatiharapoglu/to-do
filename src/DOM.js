@@ -3,12 +3,12 @@ import { Task, Project, Wrap } from "./classes.js"
 class DOM {
     static wrapper = new Wrap();
     static defaultProject = new Project(" myTask", "This is the default project");
+    static activeProject = this.defaultProject;
     static pushDefault() {
         this.wrapper.projectList.push(this.defaultProject);
         this.activeProject = this.defaultProject;
         this.renderProjects();
     }
-    static activeProject = this.defaultProject;
     static getDefaultHome() {
         this.buttonHandlers();
         this.pushDefault();
@@ -183,19 +183,35 @@ class DOM {
         contentDOM.innerHTML = ""
         let projects = this.wrapper.getProjectList();
         for (let project of projects) {
-            let array = project.getTaskList()
-            for (let i=0; i<array.length; i++) {
+            let tasks = project.getTaskList();
+            for (let i=0; i<tasks.length; i++) {
                 contentDOM.innerHTML += `
                 <div class="task-item">
                     <div>
                         <input type="checkbox" name="checkbox">
-                        <label for="checkbox">${array[i].getName()}</label>
+                        <label for="checkbox">${tasks[i].getName()}</label>
                     </div>
-                    <div id="${array[i].getUniqueID()}" class="close-btn-task">x</div>
+                    <div id="${tasks[i].getUniqueID()}" class="close-btn-task">x</div>
                 </div>
                 `
             }
         }
+        this.initRemoveForAllTasks();
+    }
+    static initRemoveForAllTasks() {
+        const removeTaskButtons = document.querySelectorAll(".close-btn-task");
+        removeTaskButtons.forEach(button => button.addEventListener('click', event => {
+            let ID = event.target.id;
+            let projects = this.wrapper.getProjectList();
+            for (let project of projects) {
+                let deletedTask = project.getTaskList().find(task => task.getUniqueID() == ID);
+                let index = project.getTaskList().indexOf(deletedTask)
+                if (deletedTask !== undefined) {
+                    project.getTaskList().splice(index, 1);
+                }
+            }
+            this.getAllTasks();
+        }))
     }
 }
 

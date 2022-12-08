@@ -70,7 +70,7 @@ class Project {
         this.taskList.push(newTask);
     }
     removeTask(ID) {
-        this.taskList = this.taskList.filter(listItem => listItem.getUniqueID() == ID);
+        this.taskList = this.taskList.filter(listItem => listItem.getUniqueID() !== ID);
     }
 }
 
@@ -91,7 +91,7 @@ class Wrap {
         this.projectList.push(newProject);
     }
     removeProject(ID) {
-        this.projectList = this.projectList.filter(listItem => listItem.getUniqueID() == ID);
+        this.projectList = this.projectList.filter(listItem => listItem.getUniqueID() !== ID);
     }
 }
 
