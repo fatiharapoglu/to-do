@@ -2,7 +2,7 @@ import { Task, Project, Wrap } from "./classes.js"
 
 class DOM {
     static wrapper = new Wrap();
-    static defaultProject = new Project(" myTask", "This is the default project");
+    static defaultProject = new Project(" myTask", "Stay organized, stay focused.");
     static activeProject = this.defaultProject;
     static pushDefault() {
         this.wrapper.projectList.push(this.defaultProject);
@@ -28,11 +28,11 @@ class DOM {
         newProjectBtnDOM.addEventListener("click", this.openNewProjectModal);
         closeNewTaskModalBtnDOM.addEventListener("click", this.closeNewTaskModal);
         closeNewProjectModalBtnDOM.addEventListener("click", this.closeNewProjectModal);
-        taskFormDOM.addEventListener('submit', (event) => {
+        taskFormDOM.addEventListener('submit', event => {
             event.preventDefault();
             this.addNewTask();
         });
-        projectFormDOM.addEventListener("submit", (event) => {
+        projectFormDOM.addEventListener("submit", event => {
             event.preventDefault();
             this.addNewProject();
         });
@@ -125,8 +125,8 @@ class DOM {
         for (let task of activeProject) {
             contentDOM.innerHTML += `
             <div class="task-item flex-task">
-                <div>
-                    <input type="checkbox" name="checkbox">
+            <div class="checkbox">
+                    <input type="checkbox" name="checkbox" data-id="${task.getUniqueID()}">
                     <label for="checkbox">${task.getName()}</label>
                 </div>
                 <div class="flex-task-items">
@@ -140,6 +140,7 @@ class DOM {
         this.initRemoveTask();
         this.highlightActive();
         this.renderProjectHeader();
+        this.checkCheckbox();
     }
     static renderProjects() {
         const projectListDOM = document.querySelector("#project-list");
@@ -148,7 +149,7 @@ class DOM {
         for (let project of projects) {
             projectListDOM.innerHTML += `
             <li>
-                <div class="project-item" id="${project.getUniqueID()}">
+                <div class="project-item" data-id="${project.getUniqueID()}">
                     <a href="#">${project.getName().charAt(0).toUpperCase() + project.getName().slice(1)}</a>
                 </div>
                 <div id="${project.getUniqueID()}" class="close-btn-project">x</div>
@@ -180,7 +181,7 @@ class DOM {
     static selectProject() {
         const projects = document.querySelectorAll(".project-item");
         projects.forEach(project => project.addEventListener('click', event => {
-            this.setActiveProject(event.target.parentNode.id);
+            this.setActiveProject(event.target.parentNode.dataset.id);
             this.renderProjects();
             this.renderTasks();
         }))
@@ -194,8 +195,8 @@ class DOM {
             for (let i=0; i<tasks.length; i++) {
                 contentDOM.innerHTML += `
                 <div class="task-item flex-task">
-                    <div>
-                        <input type="checkbox" name="checkbox">
+                    <div class="checkbox">
+                        <input type="checkbox" name="checkbox" data-id="${tasks[i].getUniqueID()}">
                         <label for="checkbox">${tasks[i].getName()}</label>
                     </div>
                     <div class="flex-task-items">
@@ -242,6 +243,15 @@ class DOM {
         const projectHeaderDetailsDOM = document.getElementById("project-header-details");
         projectHeaderNameDOM.textContent = `All Tasks`
         projectHeaderDetailsDOM.textContent = `Active Project: ${this.getActiveProject().getName()}`
+    }
+    static checkCheckbox() {
+        const checkboxes = document.querySelectorAll("input[type=checkbox]");
+        checkboxes.forEach(checkbox => checkbox.addEventListener("change", event => {
+            let ID = event.target.dataset.id;
+            let checkedTask = this.getActiveProject().getTask(ID);
+            checkedTask.toggleChecked();
+            console.log(checkedTask.getChecked());
+        }))
     }
 }
 

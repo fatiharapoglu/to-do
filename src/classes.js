@@ -5,6 +5,7 @@ class Task {
         this.priority = priority;
         this.date = date;
         this.uniqueID = Date.now();
+        this.checked = false;
     }
     getName() {
         return this.name;
@@ -14,6 +15,16 @@ class Task {
     }
     getUniqueID() {
         return this.uniqueID;
+    }
+    toggleChecked() {
+        if (this.checked) {
+            this.checked = false;
+        } else {
+            this.checked = true;
+        }
+    }
+    getChecked() {
+        return this.checked;
     }
     getDetails() {
         return this.details;

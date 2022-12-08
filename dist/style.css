@@ -232,7 +232,7 @@ form textarea {
     border: 1px solid red;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: baseline;
     gap: 10px;
 }
 
@@ -261,14 +261,34 @@ form textarea {
     text-align: center;
 }
 
-.project-properties {
+.project-properties-right {
     display: flex;
     gap: 25px;
     position: absolute;
     right: 60px;
+    align-self: flex-end;
+    padding-bottom: 10px;
 }
 
-.project-properties div {
+.project-properties-right div {
     width: 100px;
     text-align: center;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+input[type="checkbox"] {
+    height: 1rem;
+    width: 1rem;
+}
+
+.project-properties-left {
+    position: absolute;
+    left: 50px;
+    align-self: flex-end;
+    padding-bottom: 10px;
 }

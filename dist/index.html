@@ -63,15 +63,18 @@
             </div>
             <section class="main">
                 <div class="project-header">
+                    <div class="project-properties-left">
+                        <div>Task</div>
+                    </div>
                     <div class="project-header-name" id="project-header-name">
                         <!-- project name -->
                     </div>
                     <div class="project-header-details" id="project-header-details">
                         <!-- project details -->
                     </div>
-                    <div class="project-properties">
+                    <div class="project-properties-right">
                         <div>Priority</div>
-                        <div>Date</div>
+                        <div>Due Date</div>
                     </div>
                 </div>
                 <div class="content" id="content">
@@ -97,7 +100,7 @@
             <input class="input" type="text" id="task" name="task" placeholder="eg. add a night mode" required><br>
             <label class="label" for="details">Details:</label>
             <textarea class="input" type="text" id="task-details" name="details" placeholder="eg. it will have two icons, one sun and one moon"></textarea><br>
-            <label class="label" for="start">Date:</label>
+            <label class="label" for="start">Due Date:</label>
             <input class="input" type="date" id="date" name="date" min="2022-01-01" max="2025-12-31"><br>
             <label class="label" for="priority">Priority:</label>
             <select class="input" name="priority" id="priority">
@@ -113,7 +116,7 @@
         <form action="#" method="get" id="project-form" autocomplete="off">
             <label class="label" for="project">Project name:</label>
             <input class="input" type="text" id="project" name="project" placeholder="eg. odin project" required><br>
-            <label class="label" for="details">Details:</label>
+            <label class="label" for="details">Description:</label>
             <textarea class="input" type="text" id="project-details" name="details" placeholder="eg. the best project ever existed"></textarea><br>
             <div class="center"><input class="btn" type="submit" value="submit"></div>
         </form>
