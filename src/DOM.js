@@ -66,14 +66,14 @@ class DOM {
         if (date === "") {
             date = undefined;
         }
+        if (details === "") {
+            details = undefined;
+        }
         let newTask = new Task(task, details, priority, date);
         this.getActiveProject().addTask(newTask);
         this.closeNewTaskModal();
         this.clearForm();
         this.renderTasks();
-        if (this.wrapper.getProjectList().length == 0) {
-            this.pushDefault();
-        }
         console.log(this.wrapper.getProjectList());
     }
     static addNewProject() {
@@ -124,16 +124,22 @@ class DOM {
         let activeProject = this.getActiveProject().getTaskList();
         for (let task of activeProject) {
             contentDOM.innerHTML += `
-            <div class="task-item">
+            <div class="task-item flex-task">
                 <div>
                     <input type="checkbox" name="checkbox">
                     <label for="checkbox">${task.getName()}</label>
+                </div>
+                <div class="flex-task-items">
+                    <div>${task.getPriority()}</div>
+                    <div>${task.getDate()}</div>
                 </div>
                 <div id="${task.getUniqueID()}" class="close-btn-task">x</div>
             </div>
             `
         }
         this.initRemoveTask();
+        this.highlightActive();
+        this.renderProjectHeader();
     }
     static renderProjects() {
         const projectListDOM = document.querySelector("#project-list");
@@ -143,7 +149,7 @@ class DOM {
             projectListDOM.innerHTML += `
             <li>
                 <div class="project-item" id="${project.getUniqueID()}">
-                    <a href="#">${ project.getName().charAt(0).toUpperCase() + project.getName().slice(1) }</a>
+                    <a href="#">${project.getName().charAt(0).toUpperCase() + project.getName().slice(1)}</a>
                 </div>
                 <div id="${project.getUniqueID()}" class="close-btn-project">x</div>
             </li>
@@ -165,9 +171,6 @@ class DOM {
     }
     static highlightActive() {
         let ID = this.getActiveProject().getUniqueID();
-        if (this.wrapper.getProjectList().length == 0) {
-            this.pushDefault();
-        }
         this.removeAllHighlights();
         document.getElementById(ID).parentNode.querySelector(".project-item").classList.add("active-project");
     }
@@ -190,10 +193,14 @@ class DOM {
             let tasks = project.getTaskList();
             for (let i=0; i<tasks.length; i++) {
                 contentDOM.innerHTML += `
-                <div class="task-item">
+                <div class="task-item flex-task">
                     <div>
                         <input type="checkbox" name="checkbox">
                         <label for="checkbox">${tasks[i].getName()}</label>
+                    </div>
+                    <div class="flex-task-items">
+                        <div>${tasks[i].getPriority()}</div>
+                        <div>${tasks[i].getDate()}</div>
                     </div>
                     <div id="${tasks[i].getUniqueID()}" class="close-btn-task">x</div>
                 </div>
@@ -203,6 +210,7 @@ class DOM {
         this.initRemoveForAllTasks();
         this.removeAllHighlights();
         document.getElementById("all-tasks").parentNode.classList.add("active-project");
+        this.renderProjectHeaderForAllTasks();
     }
     static initRemoveForAllTasks() {
         const removeTaskButtons = document.querySelectorAll(".close-btn-task");
@@ -218,6 +226,22 @@ class DOM {
             }
             this.renderAllTasks();
         }))
+    }
+    static renderProjectHeader() {
+        const projectHeaderNameDOM = document.getElementById("project-header-name");
+        const projectHeaderDetailsDOM = document.getElementById("project-header-details");
+        projectHeaderNameDOM.textContent = `
+        ${this.getActiveProject().getName()}
+        `
+        projectHeaderDetailsDOM.textContent = `
+        ${this.getActiveProject().getDetails().charAt(0).toUpperCase() + this.getActiveProject().getDetails().slice(1)}
+        `
+    }
+    static renderProjectHeaderForAllTasks() {
+        const projectHeaderNameDOM = document.getElementById("project-header-name");
+        const projectHeaderDetailsDOM = document.getElementById("project-header-details");
+        projectHeaderNameDOM.textContent = `All Tasks`
+        projectHeaderDetailsDOM.textContent = `Active Project: ${this.getActiveProject().getName()}`
     }
 }
 
