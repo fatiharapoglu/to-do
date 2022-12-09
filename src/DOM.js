@@ -253,11 +253,18 @@ class DOM {
         ${this.getActiveProject().getDetails().charAt(0).toUpperCase() + this.getActiveProject().getDetails().slice(1)}
         `
     }
-    static renderProjectHeaderForAllTasks() {
+    static renderProjectHeaderForAllTasks(tab) {
         const projectHeaderNameDOM = document.getElementById("project-header-name");
         const projectHeaderDetailsDOM = document.getElementById("project-header-details");
-        projectHeaderNameDOM.textContent = `All Tasks`
-        projectHeaderDetailsDOM.textContent = `Active Project: ${this.getActiveProject().getName()}`
+        let text;
+        if (tab == "AllTab" || tab == undefined) {
+            text = "All Tasks";
+        }
+        else if (tab == "HighPrioTab") {
+            text = "High Priority Tasks";
+        }
+        projectHeaderNameDOM.textContent = text;
+        projectHeaderDetailsDOM.textContent = "";
     }
     static checkCheckbox() {
         const checkboxes = document.querySelectorAll("input[type=checkbox]");
