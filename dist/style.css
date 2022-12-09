@@ -188,7 +188,6 @@ footer .about {
 
 .project-item {
     width: 100%;
-    padding-right: 35px;
 }
 
 .project-item a {
@@ -291,4 +290,8 @@ input[type="checkbox"] {
     left: 50px;
     align-self: flex-end;
     padding-bottom: 10px;
+}
+
+.crossed {
+    text-decoration: line-through;
 }

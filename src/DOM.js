@@ -127,7 +127,7 @@ class DOM {
             <div class="task-item flex-task">
             <div class="checkbox">
                     <input type="checkbox" name="checkbox" data-id="${task.getUniqueID()}" ${task.isChecked() ? "checked" : "unchecked"}>
-                    <label for="checkbox">${task.getName()}</label>
+                    <label class="${task.isChecked() ? "crossed" : "uncrossed"}" for="checkbox">${task.getName()}</label>
                 </div>
                 <div class="flex-task-items">
                     <div>${task.getPriority()}</div>
@@ -181,7 +181,8 @@ class DOM {
     static selectProject() {
         const projects = document.querySelectorAll(".project-item");
         projects.forEach(project => project.addEventListener("click", event => {
-            this.setActiveProject(event.target.parentNode.dataset.id);
+            let ID = event.target.parentNode.dataset.id;
+            this.setActiveProject(ID);
             this.renderProjects();
             this.renderTasks();
         }))
@@ -197,7 +198,7 @@ class DOM {
                 <div class="task-item flex-task">
                     <div class="checkbox">
                         <input type="checkbox" name="checkbox" data-id="${tasks[i].getUniqueID()}" ${tasks[i].isChecked() ? "checked" : "unchecked"}>
-                        <label for="checkbox">${tasks[i].getName()}</label>
+                        <label class="${tasks[i].isChecked() ? "crossed" : "uncrossed"}" for="checkbox">${tasks[i].getName()}</label>
                     </div>
                     <div class="flex-task-items">
                         <div>${tasks[i].getPriority()}</div>
@@ -251,6 +252,7 @@ class DOM {
             let ID = event.target.dataset.id;
             let checkedTask = this.getActiveProject().getTask(ID);
             checkedTask.toggleChecked();
+            this.renderTasks();
         }))
     }
     static checkCheckboxForAllTasks() {
@@ -263,6 +265,7 @@ class DOM {
                 let index = project.getTaskList().indexOf(checkedTask);
                 if (checkedTask !== undefined) {
                     checkedTask.toggleChecked();
+                    this.renderAllTasks();
                 }
             }
         }))

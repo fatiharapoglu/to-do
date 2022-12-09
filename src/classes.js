@@ -47,7 +47,7 @@ class Task {
 }
 
 class Project {
-    constructor(name, details = "No details") {
+    constructor(name, details = "") {
         this.name = name;
         this.details = details;
         this.taskList = [];
