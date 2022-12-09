@@ -23,7 +23,7 @@ class Task {
             this.checked = true;
         }
     }
-    getChecked() {
+    isChecked() {
         return this.checked;
     }
     getDetails() {

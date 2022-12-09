@@ -28,7 +28,7 @@ class DOM {
         newProjectBtnDOM.addEventListener("click", this.openNewProjectModal);
         closeNewTaskModalBtnDOM.addEventListener("click", this.closeNewTaskModal);
         closeNewProjectModalBtnDOM.addEventListener("click", this.closeNewProjectModal);
-        taskFormDOM.addEventListener('submit', event => {
+        taskFormDOM.addEventListener("submit", event => {
             event.preventDefault();
             this.addNewTask();
         });
@@ -93,7 +93,7 @@ class DOM {
     }
     static initRemoveTask() {
         const removeTaskButtons = document.querySelectorAll(".close-btn-task");
-        removeTaskButtons.forEach(button => button.addEventListener('click', event => {
+        removeTaskButtons.forEach(button => button.addEventListener("click", event => {
             let index = this.getActiveProject().getTaskList().findIndex(task => task.getUniqueID() == event.target.id);
             this.getActiveProject().getTaskList().splice(index, 1);
             this.renderTasks();
@@ -101,7 +101,7 @@ class DOM {
     }
     static initRemoveProject() {
         const removeProjectButtons = document.querySelectorAll(".close-btn-project");
-        removeProjectButtons.forEach(button => button.addEventListener('click', event => {
+        removeProjectButtons.forEach(button => button.addEventListener("click", event => {
             let index = this.wrapper.getProjectList().findIndex(project => project.getUniqueID() == event.target.id);
             if (event.target.parentNode.querySelector("a").textContent == " myTask") return;
             if (this.getActiveProject().getUniqueID() == event.target.id) { 
@@ -126,7 +126,7 @@ class DOM {
             contentDOM.innerHTML += `
             <div class="task-item flex-task">
             <div class="checkbox">
-                    <input type="checkbox" name="checkbox" data-id="${task.getUniqueID()}">
+                    <input type="checkbox" name="checkbox" data-id="${task.getUniqueID()}" ${task.isChecked() ? "checked" : "unchecked"}>
                     <label for="checkbox">${task.getName()}</label>
                 </div>
                 <div class="flex-task-items">
@@ -180,7 +180,7 @@ class DOM {
     }
     static selectProject() {
         const projects = document.querySelectorAll(".project-item");
-        projects.forEach(project => project.addEventListener('click', event => {
+        projects.forEach(project => project.addEventListener("click", event => {
             this.setActiveProject(event.target.parentNode.dataset.id);
             this.renderProjects();
             this.renderTasks();
@@ -196,7 +196,7 @@ class DOM {
                 contentDOM.innerHTML += `
                 <div class="task-item flex-task">
                     <div class="checkbox">
-                        <input type="checkbox" name="checkbox" data-id="${tasks[i].getUniqueID()}">
+                        <input type="checkbox" name="checkbox" data-id="${tasks[i].getUniqueID()}" ${tasks[i].isChecked() ? "checked" : "unchecked"}>
                         <label for="checkbox">${tasks[i].getName()}</label>
                     </div>
                     <div class="flex-task-items">
@@ -212,15 +212,16 @@ class DOM {
         this.removeAllHighlights();
         document.getElementById("all-tasks").parentNode.classList.add("active-project");
         this.renderProjectHeaderForAllTasks();
+        this.checkCheckboxForAllTasks();
     }
     static initRemoveForAllTasks() {
         const removeTaskButtons = document.querySelectorAll(".close-btn-task");
-        removeTaskButtons.forEach(button => button.addEventListener('click', event => {
+        removeTaskButtons.forEach(button => button.addEventListener("click", event => {
             let ID = event.target.id;
             let projects = this.wrapper.getProjectList();
             for (let project of projects) {
                 let deletedTask = project.getTaskList().find(task => task.getUniqueID() == ID);
-                let index = project.getTaskList().indexOf(deletedTask)
+                let index = project.getTaskList().indexOf(deletedTask);
                 if (deletedTask !== undefined) {
                     project.getTaskList().splice(index, 1);
                 }
@@ -250,7 +251,20 @@ class DOM {
             let ID = event.target.dataset.id;
             let checkedTask = this.getActiveProject().getTask(ID);
             checkedTask.toggleChecked();
-            console.log(checkedTask.getChecked());
+        }))
+    }
+    static checkCheckboxForAllTasks() {
+        const checkboxes = document.querySelectorAll("input[type=checkbox]");
+        checkboxes.forEach(checkbox => checkbox.addEventListener("change", event => {
+            let ID = event.target.dataset.id;
+            let projects = this.wrapper.getProjectList();
+            for (let project of projects) {
+                let checkedTask = project.getTaskList().find(task => task.getUniqueID() == ID);
+                let index = project.getTaskList().indexOf(checkedTask);
+                if (checkedTask !== undefined) {
+                    checkedTask.toggleChecked();
+                }
+            }
         }))
     }
 }
