@@ -24,6 +24,7 @@ class DOM {
         const closeNewTaskModalBtnDOM = document.querySelector("#close-task-modal-btn");
         const closeNewProjectModalBtnDOM = document.querySelector("#close-project-modal-btn");
         const allTasksDOM = document.getElementById("all-tasks");
+        const highPriorityDOM = document.getElementById("high-priority-tasks");
         newTaskBtnDOM.addEventListener("click", this.openNewTaskModal);
         newProjectBtnDOM.addEventListener("click", this.openNewProjectModal);
         closeNewTaskModalBtnDOM.addEventListener("click", this.closeNewTaskModal);
@@ -36,7 +37,8 @@ class DOM {
             event.preventDefault();
             this.addNewProject();
         });
-        allTasksDOM.addEventListener("click", this.renderAllTasks.bind(this));
+        allTasksDOM.addEventListener("click", () => this.renderAllTasks("AllTab"));
+        highPriorityDOM.addEventListener("click", () => this.renderAllTasks("HighPrioTab"));
     }
     static openNewTaskModal() {
         const newTaskModalDOM = document.querySelector("#new-task-modal");
@@ -187,12 +189,18 @@ class DOM {
             this.renderTasks();
         }))
     }
-    static renderAllTasks() {
+    static renderAllTasks(tab) {
         const contentDOM = document.querySelector("#content");
         contentDOM.innerHTML = ""
         let projects = this.wrapper.getProjectList();
         for (let project of projects) {
-            let tasks = project.getTaskList();
+            let tasks;
+            if (tab == "AllTab" || tab == undefined) {
+                tasks = project.getTaskList();
+            }
+            else if (tab == "HighPrioTab") {
+                tasks = project.getHighPriority();
+            }
             for (let i=0; i<tasks.length; i++) {
                 contentDOM.innerHTML += `
                 <div class="task-item flex-task">
@@ -209,13 +217,18 @@ class DOM {
                 `
             }
         }
-        this.initRemoveForAllTasks();
+        this.initRemoveForAllTasks(tab);
         this.removeAllHighlights();
-        document.getElementById("all-tasks").parentNode.classList.add("active-project");
-        this.renderProjectHeaderForAllTasks();
-        this.checkCheckboxForAllTasks();
+        if (tab == "AllTab" || tab == undefined) {
+            document.getElementById("all-tasks").parentNode.classList.add("active-project");
+        }
+        else if (tab == "HighPrioTab") {
+            document.getElementById("high-priority-tasks").parentNode.classList.add("active-project");
+        }
+        this.renderProjectHeaderForAllTasks(tab);
+        this.checkCheckboxForAllTasks(tab);
     }
-    static initRemoveForAllTasks() {
+    static initRemoveForAllTasks(tab) {
         const removeTaskButtons = document.querySelectorAll(".close-btn-task");
         removeTaskButtons.forEach(button => button.addEventListener("click", event => {
             let ID = event.target.id;
@@ -227,7 +240,7 @@ class DOM {
                     project.getTaskList().splice(index, 1);
                 }
             }
-            this.renderAllTasks();
+            this.renderAllTasks(tab);
         }))
     }
     static renderProjectHeader() {
@@ -255,17 +268,16 @@ class DOM {
             this.renderTasks();
         }))
     }
-    static checkCheckboxForAllTasks() {
+    static checkCheckboxForAllTasks(tab) {
         const checkboxes = document.querySelectorAll("input[type=checkbox]");
         checkboxes.forEach(checkbox => checkbox.addEventListener("change", event => {
             let ID = event.target.dataset.id;
             let projects = this.wrapper.getProjectList();
             for (let project of projects) {
                 let checkedTask = project.getTaskList().find(task => task.getUniqueID() == ID);
-                let index = project.getTaskList().indexOf(checkedTask);
                 if (checkedTask !== undefined) {
                     checkedTask.toggleChecked();
-                    this.renderAllTasks();
+                    this.renderAllTasks(tab);
                 }
             }
         }))

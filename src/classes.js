@@ -83,6 +83,9 @@ class Project {
     removeTask(ID) {
         this.taskList = this.taskList.filter(listItem => listItem.getUniqueID() !== ID);
     }
+    getHighPriority() {
+        return this.taskList.filter(listItem => listItem.getPriority() == "High");
+    }
 }
 
 class Wrap {
