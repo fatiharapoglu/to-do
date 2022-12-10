@@ -1,4 +1,5 @@
 import { Task, Project, Wrap } from "./classes.js"
+import { format } from 'date-fns'
 
 class DOM {
     static wrapper = new Wrap();
@@ -25,6 +26,8 @@ class DOM {
         const closeNewProjectModalBtnDOM = document.querySelector("#close-project-modal-btn");
         const allTasksDOM = document.getElementById("all-tasks");
         const highPriorityDOM = document.getElementById("high-priority-tasks");
+        const dailyDOM = document.getElementById("daily-tasks");
+        const weeklyDOM = document.getElementById("weekly-tasks");
         newTaskBtnDOM.addEventListener("click", this.openNewTaskModal);
         newProjectBtnDOM.addEventListener("click", this.openNewProjectModal);
         closeNewTaskModalBtnDOM.addEventListener("click", this.closeNewTaskModal);
@@ -39,6 +42,8 @@ class DOM {
         });
         allTasksDOM.addEventListener("click", () => this.renderAllTasks("AllTab"));
         highPriorityDOM.addEventListener("click", () => this.renderAllTasks("HighPrioTab"));
+        dailyDOM.addEventListener("click", () => this.renderAllTasks("DailyTab"));
+        weeklyDOM.addEventListener("click", () => this.renderAllTasks("WeeklyTab"));
     }
     static openNewTaskModal() {
         const newTaskModalDOM = document.querySelector("#new-task-modal");
@@ -62,21 +67,23 @@ class DOM {
         const dateDOM = document.getElementById("date");
         const priorityDOM = document.getElementById("priority");
         let task = taskDOM.value;
-        let details = taskDetailsDOM.value;
-        let date = dateDOM.value;
-        let priority = priorityDOM.value;
-        if (date === "") {
+        let date;
+        if (dateDOM.value !== "") {
+            date = format(new Date(dateDOM.value), 'dd/MM/yyyy');
+        }
+        if (dateDOM.value === "") {
             date = undefined;
         }
+        let details = taskDetailsDOM.value;
         if (details === "") {
             details = undefined;
         }
+        let priority = priorityDOM.value;
         let newTask = new Task(task, details, priority, date);
         this.getActiveProject().addTask(newTask);
         this.closeNewTaskModal();
         this.clearForm();
         this.renderTasks();
-        console.log(this.wrapper.getProjectList());
     }
     static addNewProject() {
         const projectDOM = document.getElementById("project");
@@ -91,7 +98,6 @@ class DOM {
         this.setActiveProject(ID);
         this.renderProjects();
         this.renderTasks();
-        console.log(this.wrapper.getProjectList());
     }
     static initRemoveTask() {
         const removeTaskButtons = document.querySelectorAll(".close-btn-task");
@@ -201,6 +207,12 @@ class DOM {
             else if (tab == "HighPrioTab") {
                 tasks = project.getHighPriority();
             }
+            else if (tab == "DailyTab") {
+                tasks = project.getDaily();
+            }
+            else if (tab == "WeeklyTab") {
+                tasks = project.getWeekly();
+            }
             for (let i=0; i<tasks.length; i++) {
                 contentDOM.innerHTML += `
                 <div class="task-item flex-task">
@@ -224,6 +236,12 @@ class DOM {
         }
         else if (tab == "HighPrioTab") {
             document.getElementById("high-priority-tasks").parentNode.classList.add("active-project");
+        }
+        else if (tab == "DailyTab") {
+            document.getElementById("daily-tasks").parentNode.classList.add("active-project");
+        }
+        else if (tab == "WeeklyTab") {
+            document.getElementById("weekly-tasks").parentNode.classList.add("active-project");
         }
         this.renderProjectHeaderForAllTasks(tab);
         this.checkCheckboxForAllTasks(tab);
@@ -262,6 +280,12 @@ class DOM {
         }
         else if (tab == "HighPrioTab") {
             text = "High Priority Tasks";
+        }
+        else if (tab == "DailyTab") {
+            text = "Daily Tasks";
+        }
+        else if (tab == "WeeklyTab") {
+            text = "Weekly Tasks";
         }
         projectHeaderNameDOM.textContent = text;
         projectHeaderDetailsDOM.textContent = "";

@@ -1,3 +1,5 @@
+import { toDate, isToday, isThisWeek, subDays } from "date-fns"
+
 class Task {
     constructor(name, details = "No details", priority = "Normal", date = "No date") {
         this.name = name;
@@ -44,6 +46,12 @@ class Task {
     setPriority(newPriority) {
         this.priority = newPriority;
     }
+    formatDate() {
+        let day = this.date.split("/")[0];
+        let month = this.date.split("/")[1];
+        let year = this.date.split("/")[2];
+        return `${month}/${day}/${year}`
+    }
 }
 
 class Project {
@@ -85,6 +93,18 @@ class Project {
     }
     getHighPriority() {
         return this.taskList.filter(listItem => listItem.getPriority() == "High");
+    }
+    getDaily() {
+        return this.taskList.filter(listItem => {
+            let date = new Date(listItem.formatDate());
+            return isToday(toDate(date));
+        })
+    }
+    getWeekly() {
+        return this.taskList.filter(listItem => {
+            let date = new Date(listItem.formatDate());
+            return isThisWeek(subDays(toDate(date), 6));
+        })
     }
 }
 
