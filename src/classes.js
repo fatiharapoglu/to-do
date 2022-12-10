@@ -55,6 +55,9 @@ class Task {
     getHowDistant() {
         let date = new Date(this.formatDate());
         let now = new Date();
+        if (date == "Invalid Date") {
+            return "No Date";
+        }
         return intlFormatDistance(date, now);
     }
     isTaskToday() {
