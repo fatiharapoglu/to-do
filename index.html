@@ -92,7 +92,7 @@
                 <option value="Normal" selected="selected">Normal</option>
                 <option value="Low">Low</option>
             </select><br>
-            <div class="center"><input class="btn" type="submit" value="submit"></div>
+            <div class="center"><input class="btn" type="submit" value="add task"></div>
         </form>
     </div>
     <div id="new-project-modal" class="hidden modal">
@@ -102,8 +102,28 @@
             <input class="input" type="text" id="project" name="project" placeholder="eg. odin project" required><br>
             <label class="label" for="details">Description:</label>
             <textarea class="input" type="text" id="project-details" name="details" placeholder="eg. the best project ever existed"></textarea><br>
-            <div class="center"><input class="btn" type="submit" value="submit"></div>
+            <div class="center"><input class="btn" type="submit" value="add project"></div>
         </form>
+    </div>
+    <div id="edit-modal" class="hidden modal">
+        <div class="close-btn" id="close-edit-modal-btn">x</div>
+        <form action="#" method="get" id="task-edit-form" autocomplete="off">
+            <label class="label" for="task">Task:</label>
+            <input class="input" type="text" id="task-edit" name="task" placeholder="eg. add a night mode" required><br>
+            <label class="label" for="details">Details:</label>
+            <textarea class="input" type="text" id="task-edit-details" name="details" placeholder="eg. it will have two icons, one sun and one moon"></textarea><br>
+            <label class="label" for="priority">Priority:</label>
+            <select class="input" name="priority" id="priority-edit">
+                <option value="High">High</option>
+                <option value="Normal" selected="selected">Normal</option>
+                <option value="Low">Low</option>
+            </select><br>
+            <div class="center"><input class="btn" type="submit" value="confirm edit"></div>
+        </form>
+    </div>
+    <div id="details-modal" class="hidden modal">
+        <div class="close-btn" id="close-details-modal-btn">x</div>
+        <div id="details-modal-content"></div>
     </div>
 </body>
 </html>
