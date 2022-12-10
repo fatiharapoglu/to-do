@@ -24,6 +24,8 @@ class DOM {
         const projectFormDOM = document.querySelector("#project-form");
         const closeNewTaskModalBtnDOM = document.querySelector("#close-task-modal-btn");
         const closeNewProjectModalBtnDOM = document.querySelector("#close-project-modal-btn");
+        const closeEditModalBtnDOM = document.querySelector("#close-edit-modal-btn");
+        const closeDetailsModalBtnDOM = document.querySelector("#close-details-modal-btn");
         const allTasksDOM = document.getElementById("all-tasks");
         const highPriorityDOM = document.getElementById("high-priority-tasks");
         const dailyDOM = document.getElementById("daily-tasks");
@@ -32,6 +34,8 @@ class DOM {
         newProjectBtnDOM.addEventListener("click", this.openNewProjectModal);
         closeNewTaskModalBtnDOM.addEventListener("click", this.closeNewTaskModal);
         closeNewProjectModalBtnDOM.addEventListener("click", this.closeNewProjectModal);
+        closeEditModalBtnDOM.addEventListener("click", this.closeEditModal);        
+        closeDetailsModalBtnDOM.addEventListener("click", this.closeDetailsModal);
         taskFormDOM.addEventListener("submit", event => {
             event.preventDefault();
             this.addNewTask();
@@ -60,6 +64,22 @@ class DOM {
     static closeNewProjectModal() {
         const newProjectModalDOM = document.querySelector("#new-project-modal");
         newProjectModalDOM.classList.add("hidden");
+    }
+    static openEditModal() {
+        const editModalDOM = document.querySelector("#edit-modal");
+        editModalDOM.classList.remove("hidden");
+    }
+    static closeEditModal() {
+        const editModalDOM = document.querySelector("#edit-modal");
+        editModalDOM.classList.add("hidden");
+    }
+    static openDetailsModal() {
+        const detailsModalDOM = document.querySelector("#details-modal");
+        detailsModalDOM.classList.remove("hidden");
+    }
+    static closeDetailsModal() {
+        const detailsModalDOM = document.querySelector("#details-modal");
+        detailsModalDOM.classList.add("hidden");
     }
     static addNewTask() {
         const taskDOM = document.getElementById("task");
@@ -141,6 +161,8 @@ class DOM {
                     <div>${task.getPriority()}</div>
                     <div>${task.isTaskToday() ? "today" : task.getHowDistant()}</div>
                 </div>
+                <div data-id="${task.getUniqueID()}" class="details-btn-task">D</div>
+                <div data-id="${task.getUniqueID()}" class="edit-btn-task">E</div>
                 <div id="${task.getUniqueID()}" class="close-btn-task">x</div>
             </div>
             `
@@ -149,6 +171,8 @@ class DOM {
         this.highlightActive();
         this.renderProjectHeader();
         this.checkCheckbox();
+        this.initEditTask();
+        this.initDetailsBtn();
     }
     static renderProjects() {
         const projectListDOM = document.querySelector("#project-list");
@@ -224,6 +248,8 @@ class DOM {
                         <div>${tasks[i].getPriority()}</div>
                         <div>${tasks[i].isTaskToday() ? "today" : tasks[i].getHowDistant()}</div>
                     </div>
+                    <div data-id="${tasks[i].getUniqueID()}" class="details-btn-task">D</div>
+                    <div data-id="${tasks[i].getUniqueID()}" class="edit-btn-task">E</div>
                     <div id="${tasks[i].getUniqueID()}" class="close-btn-task">x</div>
                 </div>
                 `
@@ -245,6 +271,8 @@ class DOM {
         }
         this.renderProjectHeaderForAllTasks(tab);
         this.checkCheckboxForAllTasks(tab);
+        this.initEditForAllTasks(tab);
+        this.initDetailsBtn();
     }
     static initRemoveForAllTasks(tab) {
         const removeTaskButtons = document.querySelectorAll(".close-btn-task");
@@ -256,9 +284,9 @@ class DOM {
                 let index = project.getTaskList().indexOf(deletedTask);
                 if (deletedTask !== undefined) {
                     project.getTaskList().splice(index, 1);
+                    this.renderAllTasks(tab);
                 }
             }
-            this.renderAllTasks(tab);
         }))
     }
     static renderProjectHeader() {
@@ -312,6 +340,91 @@ class DOM {
                 }
             }
         }))
+    }
+    static initEditTask() {
+        const editButtons = document.querySelectorAll(".edit-btn-task");
+        editButtons.forEach(button => button.addEventListener("click", event => {
+            let ID = event.target.dataset.id;
+            let task = this.getActiveProject().getTask(ID);
+            this.editTask(task);
+        }))
+    }
+    static editTask(task) {
+        const taskEditDOM = document.getElementById("task-edit");
+        const taskEditDetailsDOM = document.getElementById("task-edit-details");
+        const priorityEditDOM = document.getElementById("priority-edit");
+        const editFormDOM = document.querySelector("#task-edit-form");
+        taskEditDOM.value = task.getName();
+        taskEditDetailsDOM.value = task.getDetails();
+        priorityEditDOM.value = task.getPriority();
+        this.openEditModal();
+        editFormDOM.addEventListener("submit", event => {
+            event.preventDefault();
+            this.editTaskConfirm(task);
+            this.renderTasks();
+        })
+    }
+    static editTaskConfirm(task) {
+        const taskEditDOM = document.getElementById("task-edit");
+        const taskEditDetailsDOM = document.getElementById("task-edit-details");
+        const priorityEditDOM = document.getElementById("priority-edit");
+        task.setName(taskEditDOM.value);
+        task.setDetails(taskEditDetailsDOM.value);
+        task.setPriority(priorityEditDOM.value);
+        this.closeEditModal();
+    }
+    static initEditForAllTasks(tab) {
+        const editButtons = document.querySelectorAll(".edit-btn-task");
+        editButtons.forEach(button => button.addEventListener("click", event => {
+            let ID = event.target.dataset.id;
+            let projects = this.wrapper.getProjectList();
+            for (let project of projects) {
+                let task = project.getTaskList().find(task => task.getUniqueID() == ID);
+                if (task !== undefined) {
+                    this.editTaskForAllTasks(task, tab);
+                }
+            }
+        }))
+    }
+    static editTaskForAllTasks(task, tab) {
+        const taskEditDOM = document.getElementById("task-edit");
+        const taskEditDetailsDOM = document.getElementById("task-edit-details");
+        const priorityEditDOM = document.getElementById("priority-edit");
+        const editFormDOM = document.querySelector("#task-edit-form");
+        taskEditDOM.value = task.getName();
+        taskEditDetailsDOM.value = task.getDetails();
+        priorityEditDOM.value = task.getPriority();
+        this.openEditModal();
+        editFormDOM.addEventListener("submit", event => {
+            event.preventDefault();
+            this.editTaskConfirm(task);
+            this.renderAllTasks(tab);
+        })
+    }
+    static initDetailsBtn() {
+        const detailsButtons = document.querySelectorAll(".details-btn-task");
+        detailsButtons.forEach(button => button.addEventListener("click", event => {
+            let ID = event.target.dataset.id;
+            let projects = this.wrapper.getProjectList();
+            for (let project of projects) {
+                let task = project.getTaskList().find(task => task.getUniqueID() == ID);
+                if (task !== undefined) {
+                    this.showDetails(task);
+                }
+            }
+        }))
+    }
+    static showDetails(task) {
+        const detailsModalContentDOM = document.querySelector("#details-modal-content");
+        detailsModalContentDOM.innerHTML = `
+        <div>
+            Name: ${task.getName()} <br>
+            Details: ${task.getDetails()} <br>
+            Date: ${task.getDate()} (${task.getHowDistant()}) <br>
+            Priority: ${task.getPriority()}
+        </div>
+        ` 
+        this.openDetailsModal();
     }
 }
 
