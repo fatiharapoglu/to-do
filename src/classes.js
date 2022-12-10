@@ -1,4 +1,4 @@
-import { toDate, isToday, isThisWeek, subDays } from "date-fns"
+import { toDate, isToday, isThisWeek, subDays, intlFormatDistance } from "date-fns"
 
 class Task {
     constructor(name, details = "No details", priority = "Normal", date = "No date") {
@@ -51,6 +51,15 @@ class Task {
         let month = this.date.split("/")[1];
         let year = this.date.split("/")[2];
         return `${month}/${day}/${year}`
+    }
+    getHowDistant() {
+        let date = new Date(this.formatDate());
+        let now = new Date();
+        return intlFormatDistance(date, now);
+    }
+    isTaskToday() {
+        let date = new Date(this.formatDate());
+        return isToday(date);
     }
 }
 

@@ -1,5 +1,5 @@
 import { Task, Project, Wrap } from "./classes.js"
-import { format } from 'date-fns'
+import { format } from "date-fns"
 
 class DOM {
     static wrapper = new Wrap();
@@ -139,7 +139,7 @@ class DOM {
                 </div>
                 <div class="flex-task-items">
                     <div>${task.getPriority()}</div>
-                    <div>${task.getDate()}</div>
+                    <div>${task.isTaskToday() ? "today" : task.getHowDistant()}</div>
                 </div>
                 <div id="${task.getUniqueID()}" class="close-btn-task">x</div>
             </div>
@@ -222,7 +222,7 @@ class DOM {
                     </div>
                     <div class="flex-task-items">
                         <div>${tasks[i].getPriority()}</div>
-                        <div>${tasks[i].getDate()}</div>
+                        <div>${tasks[i].isTaskToday() ? "today" : tasks[i].getHowDistant()}</div>
                     </div>
                     <div id="${tasks[i].getUniqueID()}" class="close-btn-task">x</div>
                 </div>
