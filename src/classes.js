@@ -19,11 +19,7 @@ class Task {
         return this.uniqueID;
     }
     toggleChecked() {
-        if (this.checked) {
-            this.checked = false;
-        } else {
-            this.checked = true;
-        }
+        this.checked = !(this.checked);
     }
     isChecked() {
         return this.checked;

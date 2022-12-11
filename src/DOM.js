@@ -1,4 +1,5 @@
 import { Task, Project, Wrap } from "./classes.js"
+import { Storage } from "./localstorage.js"
 import { format } from "date-fns"
 
 class DOM {
@@ -8,14 +9,18 @@ class DOM {
     static pushDefault() {
         this.wrapper.projectList.push(this.defaultProject);
         this.activeProject = this.defaultProject;
+        this.getFromStorage();
         this.renderProjects();
     }
     static getDefaultHome() {
-        this.buttonHandlers();
         this.pushDefault();
+        this.buttonHandlers();
         this.renderProjects();
         this.renderTasks();
         this.selectProject();
+    }
+    static getFromStorage() {
+        console.log("annen")
     }
     static buttonHandlers() {
         const newTaskBtnDOM = document.querySelector("#new-task-btn");
@@ -240,6 +245,8 @@ class DOM {
         const contentDOM = document.querySelector("#content");
         contentDOM.innerHTML = ""
         let projects = this.wrapper.getProjectList();
+        Storage.setProjectsToStorage(projects);
+        console.log(Storage.getProjectsFromStorage());
         for (let project of projects) {
             let tasks;
             if (tab == "AllTab" || tab == undefined) {
