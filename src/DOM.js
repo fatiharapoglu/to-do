@@ -44,6 +44,13 @@ class DOM {
             event.preventDefault();
             this.addNewProject();
         });
+        const editFormDOM = document.querySelector("#task-edit-form");
+        editFormDOM.addEventListener("submit", event => {
+            event.preventDefault();
+            let ID = editFormDOM.dataset.id;
+            let task = this.getActiveProject().getTask(ID);
+            this.editTaskConfirm(task);
+        })
         allTasksDOM.addEventListener("click", () => this.renderAllTasks("AllTab"));
         highPriorityDOM.addEventListener("click", () => this.renderAllTasks("HighPrioTab"));
         dailyDOM.addEventListener("click", () => this.renderAllTasks("DailyTab"));
@@ -169,6 +176,7 @@ class DOM {
         }
         this.initRemoveTask();
         this.highlightActive();
+        // this.addPriorityClasses();
         this.renderProjectHeader();
         this.checkCheckbox();
         this.initEditTask();
@@ -269,6 +277,7 @@ class DOM {
         else if (tab == "WeeklyTab") {
             document.getElementById("weekly-tasks").parentNode.classList.add("active-project");
         }
+        // this.addPriorityClasses();
         this.renderProjectHeaderForAllTasks(tab);
         this.checkCheckboxForAllTasks(tab);
         this.initEditForAllTasks(tab);
@@ -343,8 +352,10 @@ class DOM {
     }
     static initEditTask() {
         const editButtons = document.querySelectorAll(".edit-btn-task");
+        const editFormDOM = document.querySelector("#task-edit-form");
         editButtons.forEach(button => button.addEventListener("click", event => {
             let ID = event.target.dataset.id;
+            editFormDOM.dataset.id = ID;
             let task = this.getActiveProject().getTask(ID);
             this.editTask(task);
         }))
@@ -353,16 +364,10 @@ class DOM {
         const taskEditDOM = document.getElementById("task-edit");
         const taskEditDetailsDOM = document.getElementById("task-edit-details");
         const priorityEditDOM = document.getElementById("priority-edit");
-        const editFormDOM = document.querySelector("#task-edit-form");
         taskEditDOM.value = task.getName();
         taskEditDetailsDOM.value = task.getDetails();
         priorityEditDOM.value = task.getPriority();
         this.openEditModal();
-        editFormDOM.addEventListener("submit", event => {
-            event.preventDefault();
-            this.editTaskConfirm(task);
-            this.renderTasks();
-        })
     }
     static editTaskConfirm(task) {
         const taskEditDOM = document.getElementById("task-edit");
@@ -372,6 +377,7 @@ class DOM {
         task.setDetails(taskEditDetailsDOM.value);
         task.setPriority(priorityEditDOM.value);
         this.closeEditModal();
+        this.renderTasks();
     }
     static initEditForAllTasks(tab) {
         const editButtons = document.querySelectorAll(".edit-btn-task");
@@ -397,7 +403,7 @@ class DOM {
         this.openEditModal();
         editFormDOM.addEventListener("submit", event => {
             event.preventDefault();
-            this.editTaskConfirm(task);
+            this.editTaskConfirm(task); // delete
             this.renderAllTasks(tab);
         })
     }
@@ -417,14 +423,29 @@ class DOM {
     static showDetails(task) {
         const detailsModalContentDOM = document.querySelector("#details-modal-content");
         detailsModalContentDOM.innerHTML = `
-        <div>
-            Name: ${task.getName()} <br>
-            Details: ${task.getDetails()} <br>
-            Date: ${task.getDate()} (${task.getHowDistant()}) <br>
-            Priority: ${task.getPriority()}
-        </div>
-        ` 
+            <div>
+                Name: ${task.getName()} <br>
+                Details: ${task.getDetails()} <br>
+                Date: ${task.getDate()} (${task.getHowDistant()}) <br>
+                Priority: ${task.getPriority()}
+            </div>
+            ` 
         this.openDetailsModal();
+    }
+    static addPriorityClasses() {
+        const tasks = document.querySelectorAll(".flex-task-items");
+        tasks.forEach(task => {
+            let priority = task.childNodes[1].textContent;
+            if (priority == "Low") {
+                task.parentNode.classList.add("border-left-low");
+            }
+            else if (priority == "Normal") {
+                task.parentNode.classList.add("border-left-normal");
+            }
+            else if (priority == "High") {
+                task.parentNode.classList.add("border-left-high")
+            }
+        })
     }
 }
 

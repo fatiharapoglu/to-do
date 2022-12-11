@@ -180,7 +180,6 @@ footer .about {
 
 .task-item {
     position: relative;
-    border-radius: 10px;
     width: 100%;
     padding: 10px;
     margin-top: 10px;
@@ -308,4 +307,16 @@ input[type="checkbox"] {
     top: 10px;
     right: 30px;
     cursor: pointer;
+}
+
+.border-left-high {
+    border-left: 4px solid red;
+}
+
+.border-left-normal {
+    border-left: 4px solid orange;
+}
+
+.border-left-low {
+    border-left: 4px solid skyblue
 }
