@@ -48,8 +48,17 @@ class DOM {
         editFormDOM.addEventListener("submit", event => {
             event.preventDefault();
             let ID = editFormDOM.dataset.id;
-            let task = this.getActiveProject().getTask(ID);
-            this.editTaskConfirm(task);
+            let tab = editFormDOM.dataset.tab;
+            let projects = this.wrapper.getProjectList();
+            for (let project of projects) {
+                let task = project.getTaskList().find(task => task.getUniqueID() == ID);
+                if (task !== undefined) {
+                    if (tab == "active-tab") {
+                        this.editTaskConfirm(task);
+                    } else {
+                        this.editTaskConfirmForAllTasks(task, tab);
+                    }
+                }}
         })
         allTasksDOM.addEventListener("click", () => this.renderAllTasks("AllTab"));
         highPriorityDOM.addEventListener("click", () => this.renderAllTasks("HighPrioTab"));
@@ -176,7 +185,7 @@ class DOM {
         }
         this.initRemoveTask();
         this.highlightActive();
-        // this.addPriorityClasses();
+        this.addPriorityClasses();
         this.renderProjectHeader();
         this.checkCheckbox();
         this.initEditTask();
@@ -277,7 +286,7 @@ class DOM {
         else if (tab == "WeeklyTab") {
             document.getElementById("weekly-tasks").parentNode.classList.add("active-project");
         }
-        // this.addPriorityClasses();
+        this.addPriorityClasses();
         this.renderProjectHeaderForAllTasks(tab);
         this.checkCheckboxForAllTasks(tab);
         this.initEditForAllTasks(tab);
@@ -356,6 +365,7 @@ class DOM {
         editButtons.forEach(button => button.addEventListener("click", event => {
             let ID = event.target.dataset.id;
             editFormDOM.dataset.id = ID;
+            editFormDOM.dataset.tab = "active-tab";
             let task = this.getActiveProject().getTask(ID);
             this.editTask(task);
         }))
@@ -379,33 +389,31 @@ class DOM {
         this.closeEditModal();
         this.renderTasks();
     }
+    static editTaskConfirmForAllTasks(task, tab) {
+        const taskEditDOM = document.getElementById("task-edit");
+        const taskEditDetailsDOM = document.getElementById("task-edit-details");
+        const priorityEditDOM = document.getElementById("priority-edit");
+        task.setName(taskEditDOM.value);
+        task.setDetails(taskEditDetailsDOM.value);
+        task.setPriority(priorityEditDOM.value);
+        this.closeEditModal();
+        this.renderAllTasks(tab);
+    }
     static initEditForAllTasks(tab) {
         const editButtons = document.querySelectorAll(".edit-btn-task");
+        const editFormDOM = document.querySelector("#task-edit-form");
         editButtons.forEach(button => button.addEventListener("click", event => {
             let ID = event.target.dataset.id;
+            editFormDOM.dataset.id = ID;
+            editFormDOM.dataset.tab = tab;
             let projects = this.wrapper.getProjectList();
             for (let project of projects) {
                 let task = project.getTaskList().find(task => task.getUniqueID() == ID);
                 if (task !== undefined) {
-                    this.editTaskForAllTasks(task, tab);
+                    this.editTask(task);
                 }
             }
         }))
-    }
-    static editTaskForAllTasks(task, tab) {
-        const taskEditDOM = document.getElementById("task-edit");
-        const taskEditDetailsDOM = document.getElementById("task-edit-details");
-        const priorityEditDOM = document.getElementById("priority-edit");
-        const editFormDOM = document.querySelector("#task-edit-form");
-        taskEditDOM.value = task.getName();
-        taskEditDetailsDOM.value = task.getDetails();
-        priorityEditDOM.value = task.getPriority();
-        this.openEditModal();
-        editFormDOM.addEventListener("submit", event => {
-            event.preventDefault();
-            this.editTaskConfirm(task); // delete
-            this.renderAllTasks(tab);
-        })
     }
     static initDetailsBtn() {
         const detailsButtons = document.querySelectorAll(".details-btn-task");
