@@ -177,9 +177,9 @@ class DOM {
                     <div>${task.getPriority()}</div>
                     <div>${task.isTaskToday() ? "today" : task.getHowDistant()}</div>
                 </div>
-                <div data-id="${task.getUniqueID()}" class="details-btn-task">D</div>
-                <div data-id="${task.getUniqueID()}" class="edit-btn-task">E</div>
-                <div id="${task.getUniqueID()}" class="close-btn-task">x</div>
+                <div data-id="${task.getUniqueID()}" class="edit-btn-task"><i data-id="${task.getUniqueID()}" class="fa-regular fa-pen-to-square"></i></div>
+                <div data-id="${task.getUniqueID()}" class="details-btn-task"><i data-id="${task.getUniqueID()}" class="fa-solid fa-circle-info"></i></div>
+                <div id="${task.getUniqueID()}" class="close-btn-task"><i class="fa-solid fa-circle-xmark"></i></div>
             </div>
             `
         }
@@ -204,7 +204,7 @@ class DOM {
                 <div class="project-item" data-id="${project.getUniqueID()}">
                     <a href="#">${project.getName().charAt(0).toUpperCase() + project.getName().slice(1)}</a>
                 </div>
-                <div id="${project.getUniqueID()}" class="close-btn-project">x</div>
+                <div id="${project.getUniqueID()}" class="close-btn-project"><i class="fa-solid fa-circle-xmark"></i></div>
             </li>
             `
             if (project.getName() == " myTask") {
@@ -273,9 +273,9 @@ class DOM {
                         <div>${tasks[i].getPriority()}</div>
                         <div>${tasks[i].isTaskToday() ? "today" : tasks[i].getHowDistant()}</div>
                     </div>
-                    <div data-id="${tasks[i].getUniqueID()}" class="details-btn-task">D</div>
-                    <div data-id="${tasks[i].getUniqueID()}" class="edit-btn-task">E</div>
-                    <div id="${tasks[i].getUniqueID()}" class="close-btn-task">x</div>
+                    <div data-id="${tasks[i].getUniqueID()}" class="edit-btn-task"><i data-id="${tasks[i].getUniqueID()}" class="fa-regular fa-pen-to-square"></i></div>
+                    <div data-id="${tasks[i].getUniqueID()}" class="details-btn-task"><i data-id="${tasks[i].getUniqueID()}" class="fa-solid fa-circle-info"></i></div>
+                    <div id="${tasks[i].getUniqueID()}" class="close-btn-task"><i class="fa-solid fa-circle-xmark"></i></div>
                 </div>
                 `
             }
