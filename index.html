@@ -7,6 +7,7 @@
     <title>Fettan | myTask</title>
     <link rel="stylesheet" href="style.css">
     <script src="main.js" defer></script>
+    <script src="https://kit.fontawesome.com/4b1acd5b1d.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -15,8 +16,8 @@
                 <h1>myTask</h1>
             </div>
             <div>
-                <span>
-                    <a id="new-task-btn" href="#">+</a>
+                <span class="new-task-btn">
+                    <a id="new-task-btn" href="#"><i class="fa-regular fa-square-plus"></i> New Task</a>
                 </span>
             </div>
             <div class="header-right">
@@ -38,13 +39,19 @@
                         </div>
                     </li>
                     <li>
-                        <div><a class="home-project" id="daily-tasks" href="#">Daily<span id="daily-counter" class="counter"></span></a></div>
+                        <div>
+                            <a class="home-project" id="daily-tasks" href="#">Daily<span id="daily-counter" class="counter"></span></a>
+                        </div>
                     </li>
                     <li>
-                        <div><a class="home-project" id="weekly-tasks" href="#">Weekly<span id="weekly-counter" class="counter"></span></a></div>
+                        <div>
+                            <a class="home-project" id="weekly-tasks" href="#">Weekly<span id="weekly-counter" class="counter"></span></a>
+                        </div>
                     </li>
                     <li>
-                        <div><a class="home-project" id="high-priority-tasks" href="#">High Priority<span id="high-priority-counter" class="counter"></span></a></div>
+                        <div>
+                            <a class="home-project" id="high-priority-tasks" href="#">High Priority<span id="high-priority-counter" class="counter"></span></a>
+                        </div>
                     </li>
                 </ul>
                 <h1>Projects</h1>
@@ -89,7 +96,7 @@
         </div>
     </footer>
     <div id="new-task-modal" class="hidden modal">
-        <div class="close-btn" id="close-task-modal-btn">x</div>
+        <div class="close-btn" id="close-task-modal-btn"><i class="fa-solid fa-circle-xmark"></i></div>
         <form action="#" method="get" id="task-form" autocomplete="off">
             <label class="label" for="task">Task:</label>
             <input class="input" type="text" id="task" name="task" placeholder="eg. add a night mode" required><br>
@@ -107,7 +114,7 @@
         </form>
     </div>
     <div id="new-project-modal" class="hidden modal">
-        <div class="close-btn" id="close-project-modal-btn">x</div>
+        <div class="close-btn" id="close-project-modal-btn"><i class="fa-solid fa-circle-xmark"></i></div>
         <form action="#" method="get" id="project-form" autocomplete="off">
             <label class="label" for="project">Project name:</label>
             <input class="input" type="text" id="project" name="project" placeholder="eg. odin project" required><br>
@@ -117,7 +124,7 @@
         </form>
     </div>
     <div id="edit-modal" class="hidden modal" data-id="" data-tab="">
-        <div class="close-btn" id="close-edit-modal-btn">x</div>
+        <div class="close-btn" id="close-edit-modal-btn"><i class="fa-solid fa-circle-xmark"></i></div>
         <form action="#" method="get" id="task-edit-form" autocomplete="off">
             <label class="label" for="task">Task:</label>
             <input class="input" type="text" id="task-edit" name="task" placeholder="eg. add a night mode" required><br>
@@ -133,7 +140,7 @@
         </form>
     </div>
     <div id="details-modal" class="hidden modal">
-        <div class="close-btn" id="close-details-modal-btn">x</div>
+        <div class="close-btn" id="close-details-modal-btn"><i class="fa-solid fa-circle-xmark"></i></div>
         <div id="details-modal-content"></div>
     </div>
 </body>
