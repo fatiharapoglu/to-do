@@ -9,18 +9,14 @@ class DOM {
     static pushDefault() {
         this.wrapper.projectList.push(this.defaultProject);
         this.activeProject = this.defaultProject;
-        this.getFromStorage();
         this.renderProjects();
     }
     static getDefaultHome() {
-        this.pushDefault();
+        Storage.getFromStorage();
         this.buttonHandlers();
         this.renderProjects();
         this.renderTasks();
         this.selectProject();
-    }
-    static getFromStorage() {
-        console.log("annen")
     }
     static buttonHandlers() {
         const newTaskBtnDOM = document.querySelector("#new-task-btn");
@@ -154,7 +150,7 @@ class DOM {
             let index = this.wrapper.getProjectList().findIndex(project => project.getUniqueID() == event.target.id);
             if (event.target.parentNode.querySelector("a").textContent == " myTask") return;
             if (this.getActiveProject().getUniqueID() == event.target.id) { 
-                this.activeProject = this.defaultProject;
+                this.activeProject = this.wrapper.getProjectList().find(project => project.getName() == " myTask");
             }
             this.wrapper.getProjectList().splice(index, 1);
             this.renderProjects();
@@ -195,6 +191,7 @@ class DOM {
         this.checkCheckbox();
         this.initEditTask();
         this.initDetailsBtn();
+        Storage.saveToStorage();
     }
     static renderProjects() {
         const projectListDOM = document.querySelector("#project-list");
@@ -245,8 +242,6 @@ class DOM {
         const contentDOM = document.querySelector("#content");
         contentDOM.innerHTML = ""
         let projects = this.wrapper.getProjectList();
-        Storage.setProjectsToStorage(projects);
-        console.log(Storage.getProjectsFromStorage());
         for (let project of projects) {
             let tasks;
             if (tab == "AllTab" || tab == undefined) {
@@ -298,6 +293,7 @@ class DOM {
         this.checkCheckboxForAllTasks(tab);
         this.initEditForAllTasks(tab);
         this.initDetailsBtn();
+        Storage.saveToStorage();
     }
     static initRemoveForAllTasks(tab) {
         const removeTaskButtons = document.querySelectorAll(".close-btn-task");
