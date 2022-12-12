@@ -1,6 +1,6 @@
-import { Task, Project, Wrap } from "./classes.js"
-import { Storage } from "./localstorage.js"
-import { format } from "date-fns"
+import { Task, Project, Wrap } from "./classes";
+import { Storage } from "./localstorage";
+import { format } from "date-fns";
 
 class DOM {
     static wrapper = new Wrap();
@@ -12,7 +12,7 @@ class DOM {
         this.renderProjects();
     }
     static getDefaultHome() {
-        Storage.getFromStorage();
+        Storage.loadFromStorage();
         this.buttonHandlers();
         this.renderProjects();
         this.renderTasks();

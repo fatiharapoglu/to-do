@@ -1,4 +1,4 @@
-import { toDate, isToday, isThisWeek, subDays, intlFormatDistance } from "date-fns"
+import { toDate, isToday, isThisWeek, subDays, intlFormatDistance } from "date-fns";
 
 class Task {
     constructor(name, details = "No details", priority = "Normal", date = "No date") {
