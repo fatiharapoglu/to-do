@@ -137,7 +137,8 @@ footer .about {
 
 .modal {
     position: absolute;
-    width: 30vw;
+    width: 25vw;
+    min-width: 300px;
     top: 0;
     left: 50%;
     margin-top: 10vh;
@@ -209,6 +210,7 @@ footer .about {
 .active-project {
     border-left: 1px solid red;
     scale: 1.1;
+    font-weight: bold;
 }
 
 form textarea {
