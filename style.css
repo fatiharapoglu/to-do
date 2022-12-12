@@ -322,3 +322,23 @@ input[type="checkbox"] {
 .border-left-low {
     border-left: 4px solid skyblue
 }
+
+.counter {
+    float: right;
+    background-color: red;
+    width: 25px;
+    border-radius: 50px;
+    text-align: center;
+}
+
+.emoji {
+    text-align: center;
+    font-size: 70px;
+    margin-top: 10vh;
+    color: goldenrod;
+}
+
+.emoji-text {
+    font-size: 20px;
+    color: tomato;
+}

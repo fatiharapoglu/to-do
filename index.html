@@ -32,10 +32,20 @@
             <div class="aside">
                 <h1>Home</h1>
                 <ul>
-                    <li><div><a class="home-project" id="all-tasks" href="#">All Tasks</a></div></li>
-                    <li><div><a class="home-project" id="daily-tasks" href="#">Daily</a></div></li>
-                    <li><div><a class="home-project" id="weekly-tasks" href="#">Weekly</a></div></li>
-                    <li><div><a class="home-project" id="high-priority-tasks" href="#">High Priority</a></div></li>
+                    <li>
+                        <div>
+                            <a class="home-project" id="all-tasks" href="#">All Tasks<span id="all-counter" class="counter"></span></a>
+                        </div>
+                    </li>
+                    <li>
+                        <div><a class="home-project" id="daily-tasks" href="#">Daily<span id="daily-counter" class="counter"></span></a></div>
+                    </li>
+                    <li>
+                        <div><a class="home-project" id="weekly-tasks" href="#">Weekly<span id="weekly-counter" class="counter"></span></a></div>
+                    </li>
+                    <li>
+                        <div><a class="home-project" id="high-priority-tasks" href="#">High Priority<span id="high-priority-counter" class="counter"></span></a></div>
+                    </li>
                 </ul>
                 <h1>Projects</h1>
                 <ul class="project-list" id="project-list">
@@ -64,6 +74,7 @@
                 <div class="content" id="content">
                     <!-- task render -->
                 </div>
+                <div class="emoji hidden">¯\_(ツ)_/¯ <br><span class="emoji-text">nothing to do</span></div>
             </section>
         </div>
     </aside>
