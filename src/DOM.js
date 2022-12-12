@@ -148,7 +148,6 @@ class DOM {
         const removeProjectButtons = document.querySelectorAll(".close-btn-project");
         removeProjectButtons.forEach(button => button.addEventListener("click", event => {
             let index = this.wrapper.getProjectList().findIndex(project => project.getUniqueID() == event.target.id);
-            if (event.target.parentNode.querySelector("a").textContent == " myTask") return;
             if (this.getActiveProject().getUniqueID() == event.target.id) { 
                 this.activeProject = this.wrapper.getProjectList().find(project => project.getName() == " myTask");
             }
@@ -191,6 +190,8 @@ class DOM {
         this.checkCheckbox();
         this.initEditTask();
         this.initDetailsBtn();
+        this.counter();
+        this.hideHeaderProperties();
         Storage.saveToStorage();
     }
     static renderProjects() {
@@ -206,6 +207,11 @@ class DOM {
                 <div id="${project.getUniqueID()}" class="close-btn-project">x</div>
             </li>
             `
+            if (project.getName() == " myTask") {
+                let myTaskID = project.getUniqueID();
+                const myTask = document.getElementById(myTaskID);
+                myTask.classList.add("hidden");
+            }
         }
         this.initRemoveProject();
         this.selectProject();
@@ -293,6 +299,8 @@ class DOM {
         this.checkCheckboxForAllTasks(tab);
         this.initEditForAllTasks(tab);
         this.initDetailsBtn();
+        this.counter();
+        this.hideHeaderProperties();
         Storage.saveToStorage();
     }
     static initRemoveForAllTasks(tab) {
@@ -457,6 +465,58 @@ class DOM {
                 task.parentNode.classList.add("border-left-high")
             }
         })
+    }
+    static counter() {
+        const allCounterDOM = document.getElementById("all-counter");
+        const dailyCounterDOM = document.getElementById("daily-counter");
+        const weeklyCounterDOM = document.getElementById("weekly-counter");
+        const highPriorityCounterDOM = document.getElementById("high-priority-counter");
+        let counterForAll = 0;
+        let counterForDaily = 0;
+        let counterForWeekly = 0;
+        let counterForHighPrio = 0;
+        let projects = this.wrapper.getProjectList();
+        for (let project of projects) {
+            counterForAll += project.getTaskList().filter(task => task.isChecked() == false).length;
+            counterForDaily += project.getDaily().filter(task => task.isChecked() == false).length;
+            counterForWeekly += project.getWeekly().filter(task => task.isChecked() == false).length;
+            counterForHighPrio += project.getHighPriority().filter(task => task.isChecked() == false).length;
+        }
+        allCounterDOM.textContent = counterForAll;
+        dailyCounterDOM.textContent = counterForDaily;
+        weeklyCounterDOM.textContent = counterForWeekly;
+        highPriorityCounterDOM.textContent = counterForHighPrio;
+        allCounterDOM.classList.remove("hidden");
+        dailyCounterDOM.classList.remove("hidden");
+        weeklyCounterDOM.classList.remove("hidden");
+        highPriorityCounterDOM.classList.remove("hidden");
+        if (counterForAll == 0) {
+            allCounterDOM.classList.add("hidden");
+        }
+        if (counterForDaily == 0) {
+            dailyCounterDOM.classList.add("hidden");
+        }
+        if (counterForWeekly == 0) {
+            weeklyCounterDOM.classList.add("hidden");
+        }
+        if (counterForHighPrio == 0) {
+            highPriorityCounterDOM.classList.add("hidden");
+        }
+    }
+    static hideHeaderProperties() {
+        const headerPropertiesLeftDOM = document.querySelector(".project-properties-left");
+        const headerPropertiesRightDOM = document.querySelector(".project-properties-right");
+        const emojiDOM = document.querySelector(".emoji");
+        const contentDOM = document.querySelector("#content");
+        if (contentDOM.innerHTML == "") {
+            headerPropertiesLeftDOM.classList.add("hidden");
+            headerPropertiesRightDOM.style.display = "none";
+            emojiDOM.classList.remove("hidden");
+        } else {
+            headerPropertiesLeftDOM.classList.remove("hidden");
+            headerPropertiesRightDOM.style.display = "";
+            emojiDOM.classList.add("hidden");
+        }
     }
 }
 

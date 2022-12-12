@@ -111,7 +111,7 @@ class Project {
     getWeekly() {
         return this.taskList.filter(listItem => {
             let date = new Date(listItem.formatDate());
-            return isThisWeek(subDays(toDate(date), 6));
+            return isThisWeek(subDays(toDate(date), 1));
         })
     }
 }
