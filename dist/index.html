@@ -17,14 +17,19 @@
             </div>
             <div>
                 <span class="new-task-btn">
-                    <a id="new-task-btn" href="#"><i class="fa-regular fa-square-plus"></i> New Task</a>
+                    <a id="new-task-btn" href="#"><i class="fa-regular fa-square-plus spin-icon"></i> New Task</a>
                 </span>
             </div>
             <div class="header-right">
-                <ul>
-                    <li><a id="clear-local-storage" href="#">Clear local storage</a></li>
-                    <li><i class="fa-solid fa-lightbulb mode-change"></i></li>
-                </ul>
+                <div class="dropdown">
+                    <button class="dropdown-btn"><i class="fa-solid fa-cog spin-icon"></i></button>
+                    <div class="dropdown-content">
+                        <ul>
+                            <li><a id="clear-local-storage" href="#">Clear local storage <i class="fa-solid fa-trash"></i></a></li>
+                            <li><a href="#"><i class="fa-solid fa-lightbulb mode-change"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -59,7 +64,7 @@
                     <!-- project-list render -->
                 </ul>
                 <div class="new-project-btn" id="new-project-btn">
-                    <a href="#"><i class="fa-solid fa-folder-plus"></i> New Project</a>
+                    <a href="#"><i class="fa-solid fa-folder-plus spin-icon"></i> New Project</a>
                 </div> 
             </div>
             <section class="main">
@@ -147,6 +152,6 @@
         <div class="close-btn" id="close-details-modal-btn"><i class="fa-solid fa-circle-xmark"></i></div>
         <div id="details-modal-content"></div>
     </div>
-    <div id="snackbar" class="snackbar">Local storage cleared, refresh to see the default page.</div>
+    <div id="snackbar" class="snackbar"><!-- snackbar text --></div>
 </body>
 </html>

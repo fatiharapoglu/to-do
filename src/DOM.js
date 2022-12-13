@@ -10,6 +10,7 @@ class DOM {
         this.wrapper.projectList.push(this.defaultProject);
         this.activeProject = this.defaultProject;
         this.renderProjects();
+        this.createFillerExamples();
     }
     static getDefaultHome() {
         Storage.loadFromStorage();
@@ -362,7 +363,7 @@ class DOM {
             text = "Weekly Tasks";
         }
         projectHeaderNameDOM.textContent = text;
-        projectHeaderDetailsDOM.textContent = "";
+        projectHeaderDetailsDOM.textContent = `Active project: ${this.getActiveProject().getName()}`;
     }
     static checkCheckbox() {
         const checkboxes = document.querySelectorAll("input[type=checkbox]");
@@ -544,6 +545,26 @@ class DOM {
         setTimeout(() => {
             snackbarDOM.classList.remove("show"); 
         }, 3000);
+    }
+    static createFillerExamples() {
+        let projectExample = new Project("School", "school related stuff");
+        let taskExampleOne = new Task("remember how to program ideal gas law with MATLAB", "no idea", "Low", "14/12/2022");
+        let taskExampleTwo = new Task("get thermodynamics and kinetics notes", "from buse", "High", "16/12/2022");
+        let taskExampleThree = new Task("work on visuals of design presentation", "make it beautiful", "Normal", "01/01/2023");
+        let taskExampleFour = new Task("hey teacher", "leave them kids alone", "High", "01/01/2024");
+        taskExampleTwo.toggleChecked();
+        taskExampleFour.toggleChecked();
+        projectExample.uniqueID = 0;
+        taskExampleOne.uniqueID = 1;
+        taskExampleTwo.uniqueID = 2;
+        taskExampleThree.uniqueID = 3;
+        taskExampleFour.uniqueID = 4;
+        projectExample.addTask(taskExampleOne);
+        projectExample.addTask(taskExampleTwo);
+        projectExample.addTask(taskExampleThree);
+        projectExample.addTask(taskExampleFour);
+        this.wrapper.addProject(projectExample);
+        this.activeProject = projectExample;
     }
 }
 
