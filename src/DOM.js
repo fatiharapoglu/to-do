@@ -179,7 +179,7 @@ class DOM {
                 </div>
                 <div data-id="${task.getUniqueID()}" class="edit-btn-task"><i data-id="${task.getUniqueID()}" class="fa-regular fa-pen-to-square"></i></div>
                 <div data-id="${task.getUniqueID()}" class="details-btn-task"><i data-id="${task.getUniqueID()}" class="fa-solid fa-circle-info"></i></div>
-                <div id="${task.getUniqueID()}" class="close-btn-task"><i class="fa-solid fa-circle-xmark"></i></div>
+                <div class="close-btn-task"><i id="${task.getUniqueID()}" class="fa-solid fa-circle-xmark"></i></div>
             </div>
             `
         }
@@ -204,13 +204,13 @@ class DOM {
                 <div class="project-item" data-id="${project.getUniqueID()}">
                     <a href="#">${project.getName().charAt(0).toUpperCase() + project.getName().slice(1)}</a>
                 </div>
-                <div id="${project.getUniqueID()}" class="close-btn-project"><i class="fa-solid fa-circle-xmark"></i></div>
+                <div class="close-btn-project"><i id="${project.getUniqueID()}" class="fa-solid fa-circle-xmark"></i></div>
             </li>
             `
             if (project.getName() == " myTask") {
                 let myTaskID = project.getUniqueID();
                 const myTask = document.getElementById(myTaskID);
-                myTask.classList.add("hidden");
+                myTask.parentNode.classList.add("hidden");
             }
         }
         this.initRemoveProject();
@@ -230,7 +230,7 @@ class DOM {
     static highlightActive() {
         let ID = this.getActiveProject().getUniqueID();
         this.removeAllHighlights();
-        document.getElementById(ID).parentNode.querySelector(".project-item").classList.add("active-project");
+        document.getElementById(ID).parentNode.parentNode.querySelector(".project-item").classList.add("active-project");
     }
     static removeAllHighlights() {
         document.querySelectorAll(".active-project").forEach(item => item.classList.remove("active-project"));
@@ -275,7 +275,7 @@ class DOM {
                     </div>
                     <div data-id="${tasks[i].getUniqueID()}" class="edit-btn-task"><i data-id="${tasks[i].getUniqueID()}" class="fa-regular fa-pen-to-square"></i></div>
                     <div data-id="${tasks[i].getUniqueID()}" class="details-btn-task"><i data-id="${tasks[i].getUniqueID()}" class="fa-solid fa-circle-info"></i></div>
-                    <div id="${tasks[i].getUniqueID()}" class="close-btn-task"><i class="fa-solid fa-circle-xmark"></i></div>
+                    <div class="close-btn-task"><i  id="${tasks[i].getUniqueID()}" class="fa-solid fa-circle-xmark"></i></div>
                 </div>
                 `
             }
