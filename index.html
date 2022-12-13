@@ -31,35 +31,35 @@
     <aside>
         <div class="container">
             <div class="aside">
-                <h1>Home</h1>
+                <h1>Home <i class="fa-solid fa-house-circle-check"></i></h1>
                 <ul>
                     <li>
                         <div>
-                            <a class="home-project" id="all-tasks" href="#">All Tasks<span id="all-counter" class="counter"></span></a>
+                            <a class="home-project" id="all-tasks" href="#"><i class="fa-solid fa-list-check"></i> All Tasks<span id="all-counter" class="counter"></span></a>
                         </div>
                     </li>
                     <li>
                         <div>
-                            <a class="home-project" id="daily-tasks" href="#">Daily<span id="daily-counter" class="counter"></span></a>
+                            <a class="home-project" id="daily-tasks" href="#"><i class="fa-solid fa-clock"></i> Daily<span id="daily-counter" class="counter"></span></a>
                         </div>
                     </li>
                     <li>
                         <div>
-                            <a class="home-project" id="weekly-tasks" href="#">Weekly<span id="weekly-counter" class="counter"></span></a>
+                            <a class="home-project" id="weekly-tasks" href="#"><i class="fa-solid fa-calendar-week"></i> Weekly<span id="weekly-counter" class="counter"></span></a>
                         </div>
                     </li>
                     <li>
                         <div>
-                            <a class="home-project" id="high-priority-tasks" href="#">High Priority<span id="high-priority-counter" class="counter"></span></a>
+                            <a class="home-project" id="high-priority-tasks" href="#"><i class="fa-solid fa-star"></i> High Priority<span id="high-priority-counter" class="counter"></span></a>
                         </div>
                     </li>
                 </ul>
-                <h1>Projects</h1>
+                <h1>Projects <i class="fa-regular fa-folder-open"></i></h1>
                 <ul class="project-list" id="project-list">
                     <!-- project-list render -->
                 </ul>
                 <div class="new-project-btn" id="new-project-btn">
-                    <a href="#">New Project +</a>
+                    <a href="#"><i class="fa-solid fa-folder-plus"></i> New Project</a>
                 </div> 
             </div>
             <section class="main">
@@ -97,6 +97,7 @@
     </footer>
     <div id="new-task-modal" class="hidden modal">
         <div class="close-btn" id="close-task-modal-btn"><i class="fa-solid fa-circle-xmark"></i></div>
+        <h2>New Task</h2>
         <form action="#" method="get" id="task-form" autocomplete="off">
             <label class="label" for="task">Task:</label>
             <input class="input" type="text" id="task" name="task" placeholder="eg. add a night mode" required><br>
@@ -115,6 +116,7 @@
     </div>
     <div id="new-project-modal" class="hidden modal">
         <div class="close-btn" id="close-project-modal-btn"><i class="fa-solid fa-circle-xmark"></i></div>
+        <h2>New Project</h2>
         <form action="#" method="get" id="project-form" autocomplete="off">
             <label class="label" for="project">Project name:</label>
             <input class="input" type="text" id="project" name="project" placeholder="eg. odin project" required><br>
@@ -125,6 +127,7 @@
     </div>
     <div id="edit-modal" class="hidden modal" data-id="" data-tab="">
         <div class="close-btn" id="close-edit-modal-btn"><i class="fa-solid fa-circle-xmark"></i></div>
+        <h2>Edit Task</h2>
         <form action="#" method="get" id="task-edit-form" autocomplete="off">
             <label class="label" for="task">Task:</label>
             <input class="input" type="text" id="task-edit" name="task" placeholder="eg. add a night mode" required><br>
@@ -140,6 +143,7 @@
         </form>
     </div>
     <div id="details-modal" class="hidden modal">
+        <h2>Details</h2>
         <div class="close-btn" id="close-details-modal-btn"><i class="fa-solid fa-circle-xmark"></i></div>
         <div id="details-modal-content"></div>
     </div>
