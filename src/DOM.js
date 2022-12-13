@@ -31,12 +31,14 @@ class DOM {
         const highPriorityDOM = document.getElementById("high-priority-tasks");
         const dailyDOM = document.getElementById("daily-tasks");
         const weeklyDOM = document.getElementById("weekly-tasks");
+        const clearStorageBtnDOM = document.getElementById("clear-local-storage");
         newTaskBtnDOM.addEventListener("click", this.openNewTaskModal);
         newProjectBtnDOM.addEventListener("click", this.openNewProjectModal);
         closeNewTaskModalBtnDOM.addEventListener("click", this.closeNewTaskModal);
         closeNewProjectModalBtnDOM.addEventListener("click", this.closeNewProjectModal);
         closeEditModalBtnDOM.addEventListener("click", this.closeEditModal);        
         closeDetailsModalBtnDOM.addEventListener("click", this.closeDetailsModal);
+        clearStorageBtnDOM.addEventListener("click", Storage.clearLocalStorage);
         taskFormDOM.addEventListener("submit", event => {
             event.preventDefault();
             this.addNewTask();
@@ -67,10 +69,12 @@ class DOM {
         weeklyDOM.addEventListener("click", () => this.renderAllTasks("WeeklyTab"));
     }
     static openNewTaskModal() {
+        DOM.closeAllModals();
         const newTaskModalDOM = document.querySelector("#new-task-modal");
         newTaskModalDOM.classList.remove("hidden");
     }
     static openNewProjectModal() {
+        DOM.closeAllModals();
         const newProjectModalDOM = document.querySelector("#new-project-modal");
         newProjectModalDOM.classList.remove("hidden");
     }
@@ -83,6 +87,7 @@ class DOM {
         newProjectModalDOM.classList.add("hidden");
     }
     static openEditModal() {
+        DOM.closeAllModals();
         const editModalDOM = document.querySelector("#edit-modal");
         editModalDOM.classList.remove("hidden");
     }
@@ -91,12 +96,19 @@ class DOM {
         editModalDOM.classList.add("hidden");
     }
     static openDetailsModal() {
+        DOM.closeAllModals();
         const detailsModalDOM = document.querySelector("#details-modal");
         detailsModalDOM.classList.remove("hidden");
     }
     static closeDetailsModal() {
         const detailsModalDOM = document.querySelector("#details-modal");
         detailsModalDOM.classList.add("hidden");
+    }
+    static closeAllModals() {
+        this.closeDetailsModal();
+        this.closeNewProjectModal();
+        this.closeEditModal();
+        this.closeNewTaskModal();
     }
     static addNewTask() {
         const taskDOM = document.getElementById("task");
@@ -121,6 +133,7 @@ class DOM {
         this.closeNewTaskModal();
         this.clearForm();
         this.renderTasks();
+        this.snackbar("New task added successfully.");
     }
     static addNewProject() {
         const projectDOM = document.getElementById("project");
@@ -135,6 +148,7 @@ class DOM {
         this.setActiveProject(ID);
         this.renderProjects();
         this.renderTasks();
+        this.snackbar("New project added successfully.");
     }
     static initRemoveTask() {
         const removeTaskButtons = document.querySelectorAll(".close-btn-task");
@@ -142,6 +156,7 @@ class DOM {
             let index = this.getActiveProject().getTaskList().findIndex(task => task.getUniqueID() == event.target.id);
             this.getActiveProject().getTaskList().splice(index, 1);
             this.renderTasks();
+            this.snackbar("Task removed successfully.");
         }))
     }
     static initRemoveProject() {
@@ -154,6 +169,7 @@ class DOM {
             this.wrapper.getProjectList().splice(index, 1);
             this.renderProjects();
             this.renderTasks();
+            this.snackbar("Project removed successfully.");
         }))
     }
     static setActiveProject(ID) {
@@ -314,6 +330,7 @@ class DOM {
                 if (deletedTask !== undefined) {
                     project.getTaskList().splice(index, 1);
                     this.renderAllTasks(tab);
+                    this.snackbar("Task removed successfully.");
                 }
             }
         }))
@@ -399,6 +416,7 @@ class DOM {
         task.setPriority(priorityEditDOM.value);
         this.closeEditModal();
         this.renderTasks();
+        this.snackbar("Changes saved successfully.");
     }
     static editTaskConfirmForAllTasks(task, tab) {
         const taskEditDOM = document.getElementById("task-edit");
@@ -409,6 +427,7 @@ class DOM {
         task.setPriority(priorityEditDOM.value);
         this.closeEditModal();
         this.renderAllTasks(tab);
+        this.snackbar("Changes saved successfully.");
     }
     static initEditForAllTasks(tab) {
         const editButtons = document.querySelectorAll(".edit-btn-task");
@@ -517,6 +536,14 @@ class DOM {
             headerPropertiesRightDOM.style.display = "";
             emojiDOM.classList.add("hidden");
         }
+    }
+    static snackbar(text) {
+        const snackbarDOM = document.getElementById("snackbar");
+        snackbarDOM.textContent = text;
+        snackbarDOM.classList.add("show");
+        setTimeout(() => {
+            snackbarDOM.classList.remove("show"); 
+        }, 3000);
     }
 }
 

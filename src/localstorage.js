@@ -37,6 +37,10 @@ class Storage {
             DOM.activeProject = newWrapper.getProjectList().find(project => project.getName() == " myTask");
         }
     }
+    static clearLocalStorage() {
+        localStorage.clear();
+        DOM.snackbar("Local storage cleared, refresh to see the default page.");
+    }
 }
 
 export { Storage };
