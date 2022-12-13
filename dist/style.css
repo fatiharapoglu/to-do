@@ -1,11 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&family=Hi+Melody&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Stick+No+Bills:wght@200;300;400;500;600;700;800&family=Waterfall&display=swap");
 
 :root {
-    --primary-color: #ffda9f;
-    --secondary-color: #2e3642;
-    --third-color: #393E46;
-    --background-primary: #222831;
-    --border: #000000;
+    --primary-color: #aca393;
+    --secondary-color: #2b323c;
+    --third-color: #1f2328;
+    --fourth-color: #8e8c89;
+    --background-primary: #17181a;
+    --border: #525252;
 }
 
 * {
@@ -87,7 +88,7 @@ body {
 }
 
 .aside h1 {
-    padding-top: 20px;
+    padding-top: 30px;
     padding-bottom: 20px;
     text-align: center;
 }
@@ -136,7 +137,7 @@ footer .about {
 .input {
     width: 100%;
     color: var(--background-primary);
-    background-color: var(--primary-color);
+    background-color: var(--fourth-color);
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 10px;
@@ -148,11 +149,13 @@ footer .about {
 
 .label {
     color: var(--primary-color);
+    padding-left: 5px;
+    padding-bottom: 5px;
 }
 
 select option {
     color: var(--background-primary);
-    background-color: var(--primary-color);
+    background-color: var(--fourth-color);
 }
 
 .modal {
@@ -174,7 +177,7 @@ select option {
 .close-btn-task {
     position: absolute;
     top: 10px;
-    right: 10px;
+    right: 5px;
     cursor: pointer;
 }
 
@@ -183,18 +186,24 @@ select option {
     flex-direction: column;
 }
 
+.modal h2 {
+    text-align: center;
+    color: var(--primary-color);
+    padding-bottom: 10px;
+}
+
 .center {
     align-self: center;
 }
 
 .btn {
-    border: none;
+    border: 1px solid var(--border);
     border-radius: 10px;
     color: var(--primary-color);
     background-color: var(--background-primary);
     width: 100px;
-    height: 25px;
-    font-size: 14px;
+    height: 30px;
+    cursor: pointer;
 }
 
 .content {
@@ -236,14 +245,18 @@ select option {
 
 .new-project-btn {
     position: absolute;
-    bottom: 10px;
+    bottom: 20px;
+    font-size: 1.3rem;
+    left: 3.5vw;
 }
 
 .active-project {
     border-left: 2px solid var(--border);
     font-weight: bold;
+    border-radius: 10px;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+    background-color: var(--third-color);
 }
 
 form textarea {
@@ -256,7 +269,7 @@ form textarea {
     height: 100%;
     padding: 10px;
     display: block;
-    transition: background 0.3s ease-in-out;
+    transition: all 0.2s ease-in-out;
     border: none;
     border-radius: 10px;
     border-top-left-radius: 0;
@@ -305,7 +318,7 @@ form textarea {
 .flex-task-items {
     display: flex;
     gap: 25px;
-    padding-right: 50px;
+    padding-right: 5.3vw;
 }
 
 .flex-task-items div {
@@ -317,9 +330,10 @@ form textarea {
     display: flex;
     gap: 25px;
     position: absolute;
-    right: 60px;
+    right: 6vw;
     align-self: flex-end;
     padding-bottom: 10px;
+    font-weight: bold;
 }
 
 .project-properties-right div {
@@ -343,6 +357,7 @@ input[type="checkbox"] {
     left: 50px;
     align-self: flex-end;
     padding-bottom: 10px;
+    font-weight: bold;
 }
 
 .crossed {
@@ -352,23 +367,23 @@ input[type="checkbox"] {
 .edit-btn-task {
     position: absolute;
     top: 10px;
-    right: 22vw;
+    right: 55px;
     cursor: pointer;
 }
 
 .details-btn-task {
     position: absolute;
     top: 10px;
-    right: 24vw;
+    right: 30px;
     cursor: pointer;
 }
 
 .border-left-high {
-    border-left: 3px solid rgba(255, 0, 0, 0.473);
+    border-left: 3px solid rgba(255, 0, 0, 0.5);
 }
 
 .border-left-normal {
-    border-left: 3px solid rgba(255, 166, 0, 0.295);
+    border-left: 3px solid rgba(255, 166, 0, 0.5);
 }
 
 .border-left-low {
@@ -379,9 +394,10 @@ input[type="checkbox"] {
     float: right;
     background-color: var(--primary-color);
     color: var(--third-color);
-    width: 25px;
+    width: 20px;
     border-radius: 50px;
     text-align: center;
+    font-weight: bold;
 }
 
 .emoji {
@@ -394,5 +410,5 @@ input[type="checkbox"] {
 
 .emoji-text {
     font-size: 20px;
-    color: var(--secondary-color);
+    color: var(--fourth-color);
 }

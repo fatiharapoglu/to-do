@@ -443,10 +443,10 @@ class DOM {
         const detailsModalContentDOM = document.querySelector("#details-modal-content");
         detailsModalContentDOM.innerHTML = `
             <div>
-                Name: ${task.getName()} <br>
-                Details: ${task.getDetails()} <br>
-                Date: ${task.getDate()} (${task.getHowDistant()}) <br>
-                Priority: ${task.getPriority()}
+                <b>Name:</b> ${task.getName()} <br>
+                <b>Details:</b> ${task.getDetails()} <br>
+                <b>Date:</b> ${task.getDate()} (${task.getHowDistant()}) <br>
+                <b>Priority:</b> ${task.getPriority()}
             </div>
             ` 
         this.openDetailsModal();
