@@ -7,6 +7,7 @@
     --fourth-color: #8e8c89;
     --background-primary: #17181a;
     --border: #525252;
+    --primary-muted: #aca39363;
 }
 
 * {
@@ -362,6 +363,7 @@ input[type="checkbox"] {
 
 .crossed {
     text-decoration: line-through;
+    color: var(--primary-muted);
 }
 
 .edit-btn-task {
