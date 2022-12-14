@@ -6,7 +6,7 @@ class Task {
         this.details = details;
         this.priority = priority;
         this.date = date;
-        this.uniqueID = Date.now();
+        this.uniqueID = Date.now(); // creating unique id with Date.now() function, it returns a unique number related to created date
         this.checked = false;
     }
     getName() {
@@ -32,9 +32,6 @@ class Task {
     }
     getDate() {
         return this.date;
-    }
-    setDate(newDate) {
-        this.date = newDate;
     }
     getPriority() {
         return this.priority;
@@ -90,25 +87,25 @@ class Project {
     setTaskList(newTaskList) {
         this.taskList = newTaskList;
     }
-    getTask(ID) {
+    getTask(ID) { // finds the task which has that unique id and returns it
         return this.taskList.find(listItem => listItem.getUniqueID() == ID); 
     }
     addTask(newTask) {
         this.taskList.push(newTask);
     }
-    removeTask(ID) {
+    removeTask(ID) { // same with find, but filter which hasn't got that unique id
         this.taskList = this.taskList.filter(listItem => listItem.getUniqueID() !== ID);
     }
-    getHighPriority() {
+    getHighPriority() { // high priority filter for the tab
         return this.taskList.filter(listItem => listItem.getPriority() == "High");
     }
-    getDaily() {
+    getDaily() { // task date filter with date-fns isToday function
         return this.taskList.filter(listItem => {
             let date = new Date(listItem.formatDate());
             return isToday(toDate(date));
         })
     }
-    getWeekly() {
+    getWeekly() { // same as daily but isThisWeek function
         return this.taskList.filter(listItem => {
             let date = new Date(listItem.formatDate());
             return isThisWeek(subDays(toDate(date), 1));
@@ -126,7 +123,7 @@ class Wrap {
     setProjectList(newProjectList) {
         this.projectList = newProjectList;
     }
-    getProject(ID) {
+    getProject(ID) { // projects also have unique id's same with tasks and can be used for removing and getting the projects
         return this.projectList.find(listItem => listItem.getUniqueID() == ID); 
     }
     addProject(newProject) {
