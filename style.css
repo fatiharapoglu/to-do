@@ -32,11 +32,13 @@ body {
     min-height: 100vh;
     background-color: var(--background-primary);
     position: relative;
+    min-width: 1000px;
 }
 
 .header {
     width: 100%;
     height: 12vh;
+    min-height: 75px;
     background-color: var(--background-primary);
     border-bottom: 1px solid var(--border);
     display: flex;
@@ -69,6 +71,7 @@ body {
 .dropdown-btn {
     border: none;
     background-color: inherit;
+    padding: 5px 10px;
 }
 
 .dropdown {
@@ -138,11 +141,16 @@ body {
     padding-bottom: 10px;
 }
 
+.aside ul {
+    padding-top: 10px;
+}
+
 .aside h1 {
     padding-top: 30px;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     text-align: center;
     color: var(--fifth-color);
+    border-bottom: 1px dashed var(--border);
 }
 
 .main {
@@ -180,6 +188,10 @@ footer .about {
 .about a {
     color: var(--primary-color);
     text-decoration: none;
+}
+
+.about a:hover {
+    color: var(--fifth-color);
 }
 
 .hidden {
@@ -345,6 +357,7 @@ form textarea {
     position: relative;
     width: 100%;
     height: 7vh;
+    min-height: 50px;
     display: flex;
     justify-content: center;
     align-items: baseline;
@@ -442,16 +455,31 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 
+.task-details {
+    padding-bottom: 20px;
+}
+
+.task-details h3 {
+    color: var(--fifth-color);
+    border-bottom: 1px dashed var(--border);
+    padding-bottom: 5px;
+}
+
+.task-details p {
+    padding-bottom: 20px;
+    padding-top: 5px;
+}
+
 .border-left-high {
-    border-left: 3px solid rgba(255, 0, 0, 0.5);
+    border-left: 3px solid rgba(255, 0, 0, 0.75);
 }
 
 .border-left-normal {
-    border-left: 3px solid rgba(255, 166, 0, 0.5);
+    border-left: 3px solid rgba(255, 166, 0, 0.75);
 }
 
 .border-left-low {
-    border-left: 3px solid rgba(135, 207, 235, 0.5)
+    border-left: 3px solid rgba(0, 184, 255, 0.75);
 }
 
 .counter {
