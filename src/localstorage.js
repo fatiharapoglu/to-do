@@ -41,6 +41,16 @@ class Storage {
         localStorage.clear();
         DOM.snackbar("Local storage cleared, refresh to see the default page.");
     }
+    static setTheme(mode) {
+        localStorage.setItem("theme", mode);
+    }
+    static getTheme() {
+        if (localStorage.getItem("theme") === null || localStorage.getItem("theme") == "dark") {
+            return;
+        } else {
+            DOM.themeChanger();
+        }
+    }
 }
 
 export { Storage };

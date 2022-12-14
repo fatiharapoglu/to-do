@@ -15,6 +15,7 @@ class DOM {
     }
     static getDefaultHome() {
         Storage.loadFromStorage();
+        Storage.getTheme();
         this.buttonHandlers();
         this.renderProjects();
         this.renderTasks();
@@ -552,9 +553,9 @@ class DOM {
     static themeChanger() {
         const githubIconDOM = document.getElementsByClassName("githubIcon");
         const nameOfThemeDOM = document.getElementById("theme-change");
-        console.log(nameOfThemeDOM.innerHTML)
         if (this.activeTheme == "dark") {
             this.activeTheme = "light";
+            Storage.setTheme("light");
             document.documentElement.style.setProperty("--primary-color", "#292929");
             document.documentElement.style.setProperty("--secondary-color", "#dfdfdf");
             document.documentElement.style.setProperty("--third-color", "#e9e9e9");
@@ -567,6 +568,7 @@ class DOM {
             this.snackbar("Light theme activated.");
         } else {
             this.activeTheme = "dark";
+            Storage.setTheme("dark");
             document.documentElement.style.setProperty("--primary-color", "#ffffff");
             document.documentElement.style.setProperty("--secondary-color", "#2b323c");
             document.documentElement.style.setProperty("--third-color", "#1f2328");
