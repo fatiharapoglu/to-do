@@ -225,7 +225,7 @@ class DOM {
                 <div class="project-item" data-id="${project.getUniqueID()}">
                     <a href="#">${project.getName().charAt(0).toUpperCase() + project.getName().slice(1)}</a>
                 </div>
-                <div class="close-btn-project"><i id="${project.getUniqueID()}" class="fa-solid fa-circle-xmark"></i></div>
+                <div class="close-btn-project"><i id="${project.getUniqueID()}" class="fa-solid fa-circle-xmark" style="color: var(--fifth-color);"></i></div>
             </li>
             `;
             if (project.getName() == " myTask") {
@@ -467,13 +467,13 @@ class DOM {
         const detailsModalContentDOM = document.querySelector("#details-modal-content");
         detailsModalContentDOM.innerHTML = `
             <div class="task-details">
-                <h3>The task:</h3> 
+                <h3><i class="fa-solid fa-circle-check" style="color: var(--fifth-color);"></i> The task:</h3> 
                 <p>${task.getName()}</p>
-                <h3>About the task:</h3>
+                <h3><i class="fa-solid fa-circle-info" style="color: var(--fifth-color);"></i> About the task:</h3>
                 <p>${task.getDetails()}</p>
-                <h3>Due date:</h3>
+                <h3><i class="fa-solid fa-clock" style="color: var(--fifth-color);"></i> Due date:</h3>
                 <p>${task.getDate()} (${task.getHowDistant()})</p>
-                <h3>Priority:</h3>
+                <h3><i class="fa-solid fa-circle-exclamation" style="color: var(--fifth-color);"></i> Priority:</h3>
                 <p>${task.getPriority()}</p>
             </div>
             `;
@@ -555,7 +555,7 @@ class DOM {
         }, 3000);
     }
     static themeChanger() {
-        const githubIconDOM = document.getElementsByClassName("githubIcon");
+        const githubIconDOM = document.getElementsByClassName("github-icon");
         const nameOfThemeDOM = document.getElementById("theme-change");
         if (this.activeTheme == "dark") {
             this.activeTheme = "light";
@@ -576,12 +576,12 @@ class DOM {
             document.documentElement.style.setProperty("--primary-color", "#ffffff");
             document.documentElement.style.setProperty("--secondary-color", "#2b323c");
             document.documentElement.style.setProperty("--third-color", "#1f2328");
-            document.documentElement.style.setProperty("--fifth-color", "#dff9ff");
+            document.documentElement.style.setProperty("--fifth-color", "#8ec0ff");
             document.documentElement.style.setProperty("--background-primary", "#17181a");
             document.documentElement.style.setProperty("--border", "#363e3f");
             document.documentElement.style.setProperty("--primary-muted", "#ffffff5e");
             githubIconDOM[0].setAttribute("src", "assets/GitHub-Mark-Light-120px-plus.png");
-            nameOfThemeDOM.innerHTML = `Light theme <i class="fa-solid fa-lightbulb theme-change"></i>`;
+            nameOfThemeDOM.innerHTML = `Light theme <i class="fa-solid fa-lightbulb theme-change" style="color: var(--fifth-color);"></i>`;
             this.snackbar("Dark theme activated.");
         }
     }

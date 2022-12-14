@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fettan | myTask</title>
+    <link rel="shortcut icon" href="assets/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
     <script src="main.js" defer></script>
     <script src="https://kit.fontawesome.com/4b1acd5b1d.js" crossorigin="anonymous"></script>
@@ -13,20 +14,20 @@
     <header>
         <div class="header">
             <div class="header-left">
-                <h1>myTask</h1>
+                <h1>myTask <i class="fa-solid fa-check" style="color: var(--fifth-color);"></i></h1>
             </div>
             <div>
                 <span class="new-task-btn">
-                    <a id="new-task-btn" href="#"><i class="fa-regular fa-square-plus spin-icon"></i> New Task</a>
+                    <a id="new-task-btn" href="#"><i class="fa-regular fa-square-plus spin-icon" style="color: var(--fifth-color);"></i> New Task</a>
                 </span>
             </div>
             <div class="header-right">
                 <div class="dropdown">
-                    <button class="dropdown-btn"><i class="fa-solid fa-cog spin-icon"></i></button>
+                    <button class="dropdown-btn"><i class="fa-solid fa-cog spin-icon" style="color: var(--fifth-color);"></i></button>
                     <div class="dropdown-content">
                         <ul>
-                            <li><a id="clear-local-storage" href="#">Clear local storage <i class="fa-solid fa-trash trash-icon"></i></a></li>
-                            <li><a id="theme-change" href="#">Light theme <i class="fa-solid fa-lightbulb theme-change"></i></a></li>
+                            <li><a id="clear-local-storage" href="#">Clear local storage <i class="fa-solid fa-trash trash-icon" style="color: var(--fifth-color);"></i></a></li>
+                            <li><a id="theme-change" href="#">Light theme <i class="fa-solid fa-lightbulb theme-change" style="color: var(--fifth-color);"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -36,35 +37,35 @@
     <aside>
         <div class="container">
             <div class="aside">
-                <h1>Home <i class="fa-solid fa-house-circle-check"></i></h1>
+                <h1>Home <i class="fa-solid fa-house-circle-check" style="color: var(--fifth-color);"></i></h1>
                 <ul>
                     <li>
                         <div>
-                            <a class="home-project" id="all-tasks" href="#"><i class="fa-solid fa-list-check"></i> All Tasks<span id="all-counter" class="counter"></span></a>
+                            <a class="home-project" id="all-tasks" href="#"><i class="fa-solid fa-list-check" style="color: var(--fifth-color);"></i>&nbsp All Tasks<span id="all-counter" class="counter"></span></a>
                         </div>
                     </li>
                     <li>
                         <div>
-                            <a class="home-project" id="daily-tasks" href="#"><i class="fa-solid fa-clock"></i> Daily<span id="daily-counter" class="counter"></span></a>
+                            <a class="home-project" id="daily-tasks" href="#"><i class="fa-solid fa-clock" style="color: var(--fifth-color);"></i>&nbsp&nbsp Daily<span id="daily-counter" class="counter"></span></a>
                         </div>
                     </li>
                     <li>
                         <div>
-                            <a class="home-project" id="weekly-tasks" href="#"><i class="fa-solid fa-calendar-week"></i> Weekly<span id="weekly-counter" class="counter"></span></a>
+                            <a class="home-project" id="weekly-tasks" href="#"><i class="fa-solid fa-calendar-week" style="color: var(--fifth-color);"></i>&nbsp&nbsp Weekly<span id="weekly-counter" class="counter"></span></a>
                         </div>
                     </li>
                     <li>
                         <div>
-                            <a class="home-project" id="high-priority-tasks" href="#"><i class="fa-solid fa-star"></i> High Priority<span id="high-priority-counter" class="counter"></span></a>
+                            <a class="home-project" id="high-priority-tasks" href="#"><i class="fa-solid fa-star" style="color: var(--fifth-color);"></i>&nbsp High Priority<span id="high-priority-counter" class="counter"></span></a>
                         </div>
                     </li>
                 </ul>
-                <h1>Projects <i class="fa-regular fa-folder-open"></i></h1>
+                <h1>Projects <i class="fa-regular fa-folder-open" style="color: var(--fifth-color);"></i></h1>
                 <ul class="project-list" id="project-list">
                     <!-- project-list render -->
                 </ul>
                 <div class="new-project-btn" id="new-project-btn">
-                    <a href="#"><i class="fa-solid fa-folder-plus spin-icon"></i> New Project</a>
+                    <a href="#"><i class="fa-solid fa-folder-plus spin-icon" style="color: var(--fifth-color);"></i> New Project</a>
                 </div> 
             </div>
             <section class="main">
@@ -96,12 +97,12 @@
                 <a href="https://www.theodinproject.com/lessons/node-path-javascript-todo-list" id="odin">The Odin Project</a> | fatiharapoglu
             </span>
             <a href="https://github.com/fatiharapoglu">
-                <img class="githubIcon" src="assets/GitHub-Mark-Light-120px-plus.png" alt="github-logo">
+                <img class="github-icon" src="assets/GitHub-Mark-Light-120px-plus.png" alt="github-logo">
             </a>
         </div>
     </footer>
     <div id="new-task-modal" class="hidden modal">
-        <div class="close-btn" id="close-task-modal-btn"><i class="fa-solid fa-circle-xmark"></i></div>
+        <div class="close-btn" id="close-task-modal-btn"><i class="fa-solid fa-circle-xmark" style="color: var(--fifth-color);"></i></div>
         <h2>New Task</h2>
         <form action="#" method="get" id="task-form" autocomplete="off">
             <label class="label" for="task">Task:</label>
@@ -120,7 +121,7 @@
         </form>
     </div>
     <div id="new-project-modal" class="hidden modal">
-        <div class="close-btn" id="close-project-modal-btn"><i class="fa-solid fa-circle-xmark"></i></div>
+        <div class="close-btn" id="close-project-modal-btn"><i class="fa-solid fa-circle-xmark" style="color: var(--fifth-color);"></i></div>
         <h2>New Project</h2>
         <form action="#" method="get" id="project-form" autocomplete="off">
             <label class="label" for="project">Project name:</label>
@@ -131,7 +132,7 @@
         </form>
     </div>
     <div id="edit-modal" class="hidden modal" data-id="" data-tab="">
-        <div class="close-btn" id="close-edit-modal-btn"><i class="fa-solid fa-circle-xmark"></i></div>
+        <div class="close-btn" id="close-edit-modal-btn"><i class="fa-solid fa-circle-xmark" style="color: var(--fifth-color);"></i></div>
         <h2>Edit Task</h2>
         <form action="#" method="get" id="task-edit-form" autocomplete="off">
             <label class="label" for="task">Task:</label>
@@ -149,7 +150,7 @@
     </div>
     <div id="details-modal" class="hidden modal">
         <h2>Details</h2>
-        <div class="close-btn" id="close-details-modal-btn"><i class="fa-solid fa-circle-xmark"></i></div>
+        <div class="close-btn" id="close-details-modal-btn"><i class="fa-solid fa-circle-xmark" style="color: var(--fifth-color);"></i></div>
         <div id="details-modal-content"></div>
     </div>
     <div id="snackbar" class="snackbar"><!-- snackbar text --></div>
