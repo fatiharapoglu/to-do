@@ -3,7 +3,7 @@ import { Storage } from "./localstorage";
 import { format } from "date-fns";
 
 class DOM {
-    static wrapper = new Wrap();
+    static wrapper = new Wrap(); // default wrapper that includes all projects
     static defaultProject = new Project(" myTask", "Stay organized, stay focused.");
     static activeProject = this.defaultProject;
     static activeTheme = "dark";
@@ -13,7 +13,7 @@ class DOM {
         this.renderProjects();
         this.createFillerExamples();
     }
-    static getDefaultHome() {
+    static getDefaultHome() { // default homepage load
         Storage.loadFromStorage();
         Storage.getTheme();
         this.buttonHandlers();
@@ -21,7 +21,7 @@ class DOM {
         this.renderTasks();
         this.selectProject();
     }
-    static buttonHandlers() {
+    static buttonHandlers() { // primary consts with static event listeners
         const newTaskBtnDOM = document.querySelector("#new-task-btn");
         const newProjectBtnDOM = document.querySelector("#new-project-btn");
         const taskFormDOM = document.querySelector("#task-form");
@@ -43,7 +43,7 @@ class DOM {
         closeEditModalBtnDOM.addEventListener("click", this.closeEditModal);        
         closeDetailsModalBtnDOM.addEventListener("click", this.closeDetailsModal);
         clearStorageBtnDOM.addEventListener("click", Storage.clearLocalStorage);
-        themeChangerDOM.addEventListener("click", this.themeChanger.bind(this));
+        themeChangerDOM.addEventListener("click", this.themeChanger.bind(this)); // note that it is binded to DOM class
         taskFormDOM.addEventListener("submit", event => {
             event.preventDefault();
             this.addNewTask();
@@ -109,7 +109,7 @@ class DOM {
         const detailsModalDOM = document.querySelector("#details-modal");
         detailsModalDOM.classList.add("hidden");
     }
-    static closeAllModals() {
+    static closeAllModals() { // prevents opening multiple modals at the same time
         this.closeDetailsModal();
         this.closeNewProjectModal();
         this.closeEditModal();
@@ -155,7 +155,7 @@ class DOM {
         this.renderTasks();
         this.snackbar("New project added successfully.");
     }
-    static initRemoveTask() {
+    static initRemoveTask() { // init keyword for dynamic event listeners
         const removeTaskButtons = document.querySelectorAll(".close-btn-task");
         removeTaskButtons.forEach(button => button.addEventListener("click", event => {
             let index = this.getActiveProject().getTaskList().findIndex(task => task.getUniqueID() == event.target.id);
@@ -164,7 +164,7 @@ class DOM {
             this.snackbar("Task removed successfully.");
         }))
     }
-    static initRemoveProject() {
+    static initRemoveProject() { // init keyword for dynamic event listeners
         const removeProjectButtons = document.querySelectorAll(".close-btn-project");
         removeProjectButtons.forEach(button => button.addEventListener("click", event => {
             let index = this.wrapper.getProjectList().findIndex(project => project.getUniqueID() == event.target.id);
@@ -177,7 +177,7 @@ class DOM {
             this.snackbar("Project removed successfully.");
         }))
     }
-    static setActiveProject(ID) {
+    static setActiveProject(ID) { // new tasks apply to the active project
         this.activeProject = this.wrapper.getProject(ID);
     }
     static getActiveProject() {
@@ -228,10 +228,10 @@ class DOM {
                 <div class="close-btn-project"><i id="${project.getUniqueID()}" class="fa-solid fa-circle-xmark" style="color: var(--fifth-color);"></i></div>
             </li>
             `;
-            if (project.getName() == " myTask") {
+            if (project.getName() == " myTask") { // default project of myTask, this "if" removing the remove project button of this project.
                 let myTaskID = project.getUniqueID();
                 const myTask = document.getElementById(myTaskID);
-                myTask.parentNode.classList.add("hidden");
+                myTask.parentNode.classList.add("hidden"); // close button is hidden
             }
         }
         this.initRemoveProject();
@@ -248,7 +248,7 @@ class DOM {
         projectDOM.value = "";
         projectDetailsDOM.value = "";
     }
-    static highlightActive() {
+    static highlightActive() { // for visuals
         let ID = this.getActiveProject().getUniqueID();
         this.removeAllHighlights();
         document.getElementById(ID).parentNode.parentNode.querySelector(".project-item").classList.add("active-project");
@@ -256,7 +256,7 @@ class DOM {
     static removeAllHighlights() {
         document.querySelectorAll(".active-project").forEach(item => item.classList.remove("active-project"));
     }
-    static selectProject() {
+    static selectProject() { // clicking the project will set it active, and higlight it
         const projects = document.querySelectorAll(".project-item");
         projects.forEach(project => project.addEventListener("click", event => {
             let ID = event.target.parentNode.dataset.id;
@@ -265,7 +265,7 @@ class DOM {
             this.renderTasks();
         }))
     }
-    static renderAllTasks(tab) {
+    static renderAllTasks(tab) { // tab parameter created with eventlistener from all/tab tasks button and passes through all related functions
         const contentDOM = document.querySelector("#content");
         contentDOM.innerHTML = "";
         let projects = this.wrapper.getProjectList();
@@ -340,7 +340,7 @@ class DOM {
             }
         }))
     }
-    static renderProjectHeader() {
+    static renderProjectHeader() { // project name and details section render
         const projectHeaderNameDOM = document.getElementById("project-header-name");
         const projectHeaderDetailsDOM = document.getElementById("project-header-details");
         projectHeaderNameDOM.textContent = `
@@ -350,7 +350,7 @@ class DOM {
         ${this.getActiveProject().getDetails().charAt(0).toUpperCase() + this.getActiveProject().getDetails().slice(1)}
         `
     }
-    static renderProjectHeaderForAllTasks(tab) {
+    static renderProjectHeaderForAllTasks(tab) { // same with all tasks
         const projectHeaderNameDOM = document.getElementById("project-header-name");
         const projectHeaderDetailsDOM = document.getElementById("project-header-details");
         let text;
@@ -369,7 +369,7 @@ class DOM {
         projectHeaderNameDOM.textContent = text;
         projectHeaderDetailsDOM.textContent = `Active project: ${this.getActiveProject().getName()}`;
     }
-    static checkCheckbox() {
+    static checkCheckbox() { // checkbox handler
         const checkboxes = document.querySelectorAll("input[type=checkbox]");
         checkboxes.forEach(checkbox => checkbox.addEventListener("change", event => {
             let ID = event.target.dataset.id;
@@ -412,7 +412,7 @@ class DOM {
         priorityEditDOM.value = task.getPriority();
         this.openEditModal();
     }
-    static editTaskConfirm(task) {
+    static editTaskConfirm(task) { // this activates when submit only
         const taskEditDOM = document.getElementById("task-edit");
         const taskEditDetailsDOM = document.getElementById("task-edit-details");
         const priorityEditDOM = document.getElementById("priority-edit");
@@ -423,7 +423,7 @@ class DOM {
         this.renderTasks();
         this.snackbar("Changes saved successfully.");
     }
-    static editTaskConfirmForAllTasks(task, tab) {
+    static editTaskConfirmForAllTasks(task, tab) { // two parameters one with rendering all tabs, one for task properties
         const taskEditDOM = document.getElementById("task-edit");
         const taskEditDetailsDOM = document.getElementById("task-edit-details");
         const priorityEditDOM = document.getElementById("priority-edit");
@@ -479,7 +479,7 @@ class DOM {
             `;
         this.openDetailsModal();
     }
-    static addPriorityClasses() {
+    static addPriorityClasses() { // for visuals
         const tasks = document.querySelectorAll(".flex-task-items");
         tasks.forEach(task => {
             let priority = task.childNodes[1].textContent;
@@ -494,7 +494,7 @@ class DOM {
             }
         })
     }
-    static counter() {
+    static counter() { // the counter for checked/unchecked tasks
         const allCounterDOM = document.getElementById("all-counter");
         const dailyCounterDOM = document.getElementById("daily-counter");
         const weeklyCounterDOM = document.getElementById("weekly-counter");
@@ -531,7 +531,7 @@ class DOM {
             highPriorityCounterDOM.classList.add("hidden");
         }
     }
-    static hideHeaderProperties() {
+    static hideHeaderProperties() { // if there is no task, this function enables/removes some features
         const headerPropertiesLeftDOM = document.querySelector(".project-properties-left");
         const headerPropertiesRightDOM = document.querySelector(".project-properties-right");
         const emojiDOM = document.querySelector(".emoji");
@@ -546,7 +546,7 @@ class DOM {
             emojiDOM.classList.add("hidden");
         }
     }
-    static snackbar(text) {
+    static snackbar(text) { // snackbar alert settings
         const snackbarDOM = document.getElementById("snackbar");
         snackbarDOM.textContent = text;
         snackbarDOM.classList.add("show");
@@ -554,7 +554,7 @@ class DOM {
             snackbarDOM.classList.remove("show"); 
         }, 3000);
     }
-    static themeChanger() {
+    static themeChanger() { // dark/light mode with local storage settings
         const githubIconDOM = document.getElementsByClassName("github-icon");
         const nameOfThemeDOM = document.getElementById("theme-change");
         if (this.activeTheme == "dark") {
@@ -585,7 +585,7 @@ class DOM {
             this.snackbar("Dark theme activated.");
         }
     }
-    static createFillerExamples() {
+    static createFillerExamples() { // filler project and tasks for default home page for first time loading
         let projectExample = new Project("School", "school related stuff");
         let taskExampleOne = new Task("remember how to program ideal gas law with MATLAB", "no idea", "Low", "14/12/2022");
         let taskExampleTwo = new Task("get thermodynamics and kinetics notes", "from buse", "High", "16/12/2022");
