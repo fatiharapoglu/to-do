@@ -6,6 +6,7 @@ class DOM {
     static wrapper = new Wrap();
     static defaultProject = new Project(" myTask", "Stay organized, stay focused.");
     static activeProject = this.defaultProject;
+    static activeTheme = "dark";
     static pushDefault() {
         this.wrapper.projectList.push(this.defaultProject);
         this.activeProject = this.defaultProject;
@@ -33,6 +34,7 @@ class DOM {
         const dailyDOM = document.getElementById("daily-tasks");
         const weeklyDOM = document.getElementById("weekly-tasks");
         const clearStorageBtnDOM = document.getElementById("clear-local-storage");
+        const themeChangerDOM = document.getElementById("theme-change");
         newTaskBtnDOM.addEventListener("click", this.openNewTaskModal);
         newProjectBtnDOM.addEventListener("click", this.openNewProjectModal);
         closeNewTaskModalBtnDOM.addEventListener("click", this.closeNewTaskModal);
@@ -40,6 +42,7 @@ class DOM {
         closeEditModalBtnDOM.addEventListener("click", this.closeEditModal);        
         closeDetailsModalBtnDOM.addEventListener("click", this.closeDetailsModal);
         clearStorageBtnDOM.addEventListener("click", Storage.clearLocalStorage);
+        themeChangerDOM.addEventListener("click", this.themeChanger.bind(this));
         taskFormDOM.addEventListener("submit", event => {
             event.preventDefault();
             this.addNewTask();
@@ -198,7 +201,7 @@ class DOM {
                 <div data-id="${task.getUniqueID()}" class="details-btn-task"><i data-id="${task.getUniqueID()}" class="fa-solid fa-circle-info"></i></div>
                 <div class="close-btn-task"><i id="${task.getUniqueID()}" class="fa-solid fa-circle-xmark"></i></div>
             </div>
-            `
+            `;
         }
         this.initRemoveTask();
         this.highlightActive();
@@ -223,7 +226,7 @@ class DOM {
                 </div>
                 <div class="close-btn-project"><i id="${project.getUniqueID()}" class="fa-solid fa-circle-xmark"></i></div>
             </li>
-            `
+            `;
             if (project.getName() == " myTask") {
                 let myTaskID = project.getUniqueID();
                 const myTask = document.getElementById(myTaskID);
@@ -263,7 +266,7 @@ class DOM {
     }
     static renderAllTasks(tab) {
         const contentDOM = document.querySelector("#content");
-        contentDOM.innerHTML = ""
+        contentDOM.innerHTML = "";
         let projects = this.wrapper.getProjectList();
         for (let project of projects) {
             let tasks;
@@ -294,7 +297,7 @@ class DOM {
                     <div data-id="${tasks[i].getUniqueID()}" class="details-btn-task"><i data-id="${tasks[i].getUniqueID()}" class="fa-solid fa-circle-info"></i></div>
                     <div class="close-btn-task"><i  id="${tasks[i].getUniqueID()}" class="fa-solid fa-circle-xmark"></i></div>
                 </div>
-                `
+                `;
             }
         }
         this.initRemoveForAllTasks(tab);
@@ -468,7 +471,7 @@ class DOM {
                 <b>Date:</b> ${task.getDate()} (${task.getHowDistant()}) <br>
                 <b>Priority:</b> ${task.getPriority()}
             </div>
-            ` 
+            `;
         this.openDetailsModal();
     }
     static addPriorityClasses() {
@@ -545,6 +548,36 @@ class DOM {
         setTimeout(() => {
             snackbarDOM.classList.remove("show"); 
         }, 3000);
+    }
+    static themeChanger() {
+        const githubIconDOM = document.getElementsByClassName("githubIcon");
+        const nameOfThemeDOM = document.getElementById("theme-change");
+        console.log(nameOfThemeDOM.innerHTML)
+        if (this.activeTheme == "dark") {
+            this.activeTheme = "light";
+            document.documentElement.style.setProperty("--primary-color", "#292929");
+            document.documentElement.style.setProperty("--secondary-color", "#dfdfdf");
+            document.documentElement.style.setProperty("--third-color", "#e9e9e9");
+            document.documentElement.style.setProperty("--fifth-color", "#000000");
+            document.documentElement.style.setProperty("--background-primary", "#d5d5d5");
+            document.documentElement.style.setProperty("--border", "#d5d5d5");
+            document.documentElement.style.setProperty("--primary-muted", "#00000047");
+            githubIconDOM[0].setAttribute("src", "assets/GitHub-Mark-120px-plus.png");
+            nameOfThemeDOM.innerHTML = `Dark theme <i class="fa-solid fa-moon theme-change"></i>`;
+            this.snackbar("Light theme activated.");
+        } else {
+            this.activeTheme = "dark";
+            document.documentElement.style.setProperty("--primary-color", "#ffffff");
+            document.documentElement.style.setProperty("--secondary-color", "#2b323c");
+            document.documentElement.style.setProperty("--third-color", "#1f2328");
+            document.documentElement.style.setProperty("--fifth-color", "#dff9ff");
+            document.documentElement.style.setProperty("--background-primary", "#17181a");
+            document.documentElement.style.setProperty("--border", "#363e3f");
+            document.documentElement.style.setProperty("--primary-muted", "#ffffff5e");
+            githubIconDOM[0].setAttribute("src", "assets/GitHub-Mark-Light-120px-plus.png");
+            nameOfThemeDOM.innerHTML = `Light theme <i class="fa-solid fa-lightbulb theme-change"></i>`;
+            this.snackbar("Dark theme activated.");
+        }
     }
     static createFillerExamples() {
         let projectExample = new Project("School", "school related stuff");
