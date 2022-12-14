@@ -466,11 +466,15 @@ class DOM {
     static showDetails(task) {
         const detailsModalContentDOM = document.querySelector("#details-modal-content");
         detailsModalContentDOM.innerHTML = `
-            <div>
-                <b>Name:</b> ${task.getName()} <br>
-                <b>Details:</b> ${task.getDetails()} <br>
-                <b>Date:</b> ${task.getDate()} (${task.getHowDistant()}) <br>
-                <b>Priority:</b> ${task.getPriority()}
+            <div class="task-details">
+                <h3>The task:</h3> 
+                <p>${task.getName()}</p>
+                <h3>About the task:</h3>
+                <p>${task.getDetails()}</p>
+                <h3>Due date:</h3>
+                <p>${task.getDate()} (${task.getHowDistant()})</p>
+                <h3>Priority:</h3>
+                <p>${task.getPriority()}</p>
             </div>
             `;
         this.openDetailsModal();
