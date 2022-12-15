@@ -21,17 +21,13 @@ class Storage {
             DOM.pushDefault();
         } else { // so we have to assign classes to all stored objects to use related methods
             newWrapper.setProjectList(retrievedProjects);
-            newWrapper.setProjectList(
-                newWrapper.getProjectList().map(
-                    project => Object.assign(new Project(), project)
-                )
+            newWrapper.setProjectList(newWrapper.getProjectList()
+                .map(project => Object.assign(new Project(), project))
             );
-            newWrapper.getProjectList().forEach(
-                project => project.setTaskList(
-                    project.getTaskList().map(
-                        task => Object.assign(new Task(), task)
-                    )
-                )
+            newWrapper.getProjectList()
+                .forEach(project => project
+                .setTaskList(project.getTaskList()
+                .map(task => Object.assign(new Task(), task)))
             );
             DOM.wrapper = newWrapper;
             DOM.activeProject = newWrapper.getProjectList().find(project => project.getName() == " myTask");
