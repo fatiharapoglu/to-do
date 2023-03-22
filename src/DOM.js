@@ -13,7 +13,8 @@ class DOM {
         this.renderProjects();
         this.createFillerExamples();
     }
-    static getDefaultHome() { // default homepage load
+    static getDefaultHome() {
+        // default homepage load
         Storage.loadFromStorage();
         Storage.getTheme();
         this.buttonHandlers();
@@ -21,7 +22,8 @@ class DOM {
         this.renderTasks();
         this.selectProject();
     }
-    static buttonHandlers() { // primary consts with static event listeners
+    static buttonHandlers() {
+        // primary consts with static event listeners
         const newTaskBtnDOM = document.querySelector("#new-task-btn");
         const newProjectBtnDOM = document.querySelector("#new-project-btn");
         const taskFormDOM = document.querySelector("#task-form");
@@ -40,34 +42,35 @@ class DOM {
         newProjectBtnDOM.addEventListener("click", this.openNewProjectModal);
         closeNewTaskModalBtnDOM.addEventListener("click", this.closeNewTaskModal);
         closeNewProjectModalBtnDOM.addEventListener("click", this.closeNewProjectModal);
-        closeEditModalBtnDOM.addEventListener("click", this.closeEditModal);        
+        closeEditModalBtnDOM.addEventListener("click", this.closeEditModal);
         closeDetailsModalBtnDOM.addEventListener("click", this.closeDetailsModal);
         clearStorageBtnDOM.addEventListener("click", Storage.clearLocalStorage);
         themeChangerDOM.addEventListener("click", this.themeChanger.bind(this)); // note that it is binded to DOM class
-        taskFormDOM.addEventListener("submit", event => {
+        taskFormDOM.addEventListener("submit", (event) => {
             event.preventDefault();
             this.addNewTask();
         });
-        projectFormDOM.addEventListener("submit", event => {
+        projectFormDOM.addEventListener("submit", (event) => {
             event.preventDefault();
             this.addNewProject();
         });
         const editFormDOM = document.querySelector("#task-edit-form");
-        editFormDOM.addEventListener("submit", event => {
+        editFormDOM.addEventListener("submit", (event) => {
             event.preventDefault();
             let ID = editFormDOM.dataset.id;
             let tab = editFormDOM.dataset.tab;
             let projects = this.wrapper.getProjectList();
             for (let project of projects) {
-                let task = project.getTaskList().find(task => task.getUniqueID() == ID);
+                let task = project.getTaskList().find((task) => task.getUniqueID() == ID);
                 if (task !== undefined) {
                     if (tab == "active-tab") {
                         this.editTaskConfirm(task);
                     } else {
                         this.editTaskConfirmForAllTasks(task, tab);
                     }
-                }}
-        })
+                }
+            }
+        });
         allTasksDOM.addEventListener("click", () => this.renderAllTasks("AllTab"));
         highPriorityDOM.addEventListener("click", () => this.renderAllTasks("HighPrioTab"));
         dailyDOM.addEventListener("click", () => this.renderAllTasks("DailyTab"));
@@ -109,7 +112,8 @@ class DOM {
         const detailsModalDOM = document.querySelector("#details-modal");
         detailsModalDOM.classList.add("hidden");
     }
-    static closeAllModals() { // prevents opening multiple modals at the same time
+    static closeAllModals() {
+        // prevents opening multiple modals at the same time
         this.closeDetailsModal();
         this.closeNewProjectModal();
         this.closeEditModal();
@@ -123,7 +127,7 @@ class DOM {
         let task = taskDOM.value;
         let date;
         if (dateDOM.value !== "") {
-            date = format(new Date(dateDOM.value), 'dd/MM/yyyy');
+            date = format(new Date(dateDOM.value), "dd/MM/yyyy");
         }
         if (dateDOM.value === "") {
             date = undefined;
@@ -155,29 +159,42 @@ class DOM {
         this.renderTasks();
         this.snackbar("New project added successfully.");
     }
-    static initRemoveTask() { // init keyword for dynamic event listeners
+    static initRemoveTask() {
+        // init keyword for dynamic event listeners
         const removeTaskButtons = document.querySelectorAll(".close-btn-task");
-        removeTaskButtons.forEach(button => button.addEventListener("click", event => {
-            let index = this.getActiveProject().getTaskList().findIndex(task => task.getUniqueID() == event.target.id);
-            this.getActiveProject().getTaskList().splice(index, 1);
-            this.renderTasks();
-            this.snackbar("Task removed successfully.");
-        }))
+        removeTaskButtons.forEach((button) =>
+            button.addEventListener("click", (event) => {
+                let index = this.getActiveProject()
+                    .getTaskList()
+                    .findIndex((task) => task.getUniqueID() == event.target.id);
+                this.getActiveProject().getTaskList().splice(index, 1);
+                this.renderTasks();
+                this.snackbar("Task removed successfully.");
+            })
+        );
     }
-    static initRemoveProject() { // init keyword for dynamic event listeners
+    static initRemoveProject() {
+        // init keyword for dynamic event listeners
         const removeProjectButtons = document.querySelectorAll(".close-btn-project");
-        removeProjectButtons.forEach(button => button.addEventListener("click", event => {
-            let index = this.wrapper.getProjectList().findIndex(project => project.getUniqueID() == event.target.id);
-            if (this.getActiveProject().getUniqueID() == event.target.id) { 
-                this.activeProject = this.wrapper.getProjectList().find(project => project.getName() == " myTask");
-            }
-            this.wrapper.getProjectList().splice(index, 1);
-            this.renderProjects();
-            this.renderTasks();
-            this.snackbar("Project removed successfully.");
-        }))
+        removeProjectButtons.forEach((button) =>
+            button.addEventListener("click", (event) => {
+                let index = this.wrapper
+                    .getProjectList()
+                    .findIndex((project) => project.getUniqueID() == event.target.id);
+                if (this.getActiveProject().getUniqueID() == event.target.id) {
+                    this.activeProject = this.wrapper
+                        .getProjectList()
+                        .find((project) => project.getName() == " myTask");
+                }
+                this.wrapper.getProjectList().splice(index, 1);
+                this.renderProjects();
+                this.renderTasks();
+                this.snackbar("Project removed successfully.");
+            })
+        );
     }
-    static setActiveProject(ID) { // new tasks apply to the active project
+    static setActiveProject(ID) {
+        // new tasks apply to the active project
         this.activeProject = this.wrapper.getProject(ID);
     }
     static getActiveProject() {
@@ -191,8 +208,12 @@ class DOM {
             contentDOM.innerHTML += `
             <div class="task-item flex-task">
             <div class="checkbox">
-                    <input type="checkbox" name="checkbox" data-id="${task.getUniqueID()}" ${task.isChecked() ? "checked" : "unchecked"}>
-                    <label class="${task.isChecked() ? "crossed" : "uncrossed"}" for="checkbox">${task.getName()}</label>
+                    <input type="checkbox" name="checkbox" data-id="${task.getUniqueID()}" ${
+                task.isChecked() ? "checked" : "unchecked"
+            }>
+                    <label class="${
+                        task.isChecked() ? "crossed" : "uncrossed"
+                    }" for="checkbox">${task.getName()}</label>
                 </div>
                 <div class="flex-task-items">
                     <div>${task.getPriority()}</div>
@@ -223,12 +244,15 @@ class DOM {
             projectListDOM.innerHTML += `
             <li>
                 <div class="project-item" data-id="${project.getUniqueID()}">
-                    <a href="#">${project.getName().charAt(0).toUpperCase() + project.getName().slice(1)}</a>
+                    <a href="#">${
+                        project.getName().charAt(0).toUpperCase() + project.getName().slice(1)
+                    }</a>
                 </div>
                 <div class="close-btn-project"><i id="${project.getUniqueID()}" class="fa-solid fa-circle-xmark" style="color: var(--fifth-color);"></i></div>
             </li>
             `;
-            if (project.getName() == " myTask") { // default project of myTask, this "if" removing the remove project button of this project.
+            if (project.getName() == " myTask") {
+                // default project of myTask, this "if" removing the remove project button of this project.
                 let myTaskID = project.getUniqueID();
                 const myTask = document.getElementById(myTaskID);
                 myTask.parentNode.classList.add("hidden"); // close button is hidden
@@ -248,24 +272,34 @@ class DOM {
         projectDOM.value = "";
         projectDetailsDOM.value = "";
     }
-    static highlightActive() { // for visuals
+    static highlightActive() {
+        // for visuals
         let ID = this.getActiveProject().getUniqueID();
         this.removeAllHighlights();
-        document.getElementById(ID).parentNode.parentNode.querySelector(".project-item").classList.add("active-project");
+        document
+            .getElementById(ID)
+            .parentNode.parentNode.querySelector(".project-item")
+            .classList.add("active-project");
     }
     static removeAllHighlights() {
-        document.querySelectorAll(".active-project").forEach(item => item.classList.remove("active-project"));
+        document
+            .querySelectorAll(".active-project")
+            .forEach((item) => item.classList.remove("active-project"));
     }
-    static selectProject() { // clicking the project will set it active, and higlight it
+    static selectProject() {
+        // clicking the project will set it active, and higlight it
         const projects = document.querySelectorAll(".project-item");
-        projects.forEach(project => project.addEventListener("click", event => {
-            let ID = event.target.parentNode.dataset.id;
-            this.setActiveProject(ID);
-            this.renderProjects();
-            this.renderTasks();
-        }))
+        projects.forEach((project) =>
+            project.addEventListener("click", (event) => {
+                let ID = event.target.parentNode.dataset.id;
+                this.setActiveProject(ID);
+                this.renderProjects();
+                this.renderTasks();
+            })
+        );
     }
-    static renderAllTasks(tab) { // tab parameter created with eventlistener from all/tab tasks button and passes through all related functions
+    static renderAllTasks(tab) {
+        // tab parameter created with eventlistener from all/tab tasks button and passes through all related functions
         const contentDOM = document.querySelector("#content");
         contentDOM.innerHTML = "";
         let projects = this.wrapper.getProjectList();
@@ -273,30 +307,41 @@ class DOM {
             let tasks;
             if (tab == "AllTab" || tab == undefined) {
                 tasks = project.getTaskList();
-            }
-            else if (tab == "HighPrioTab") {
+            } else if (tab == "HighPrioTab") {
                 tasks = project.getHighPriority();
-            }
-            else if (tab == "DailyTab") {
+            } else if (tab == "DailyTab") {
                 tasks = project.getDaily();
-            }
-            else if (tab == "WeeklyTab") {
+            } else if (tab == "WeeklyTab") {
                 tasks = project.getWeekly();
             }
-            for (let i=0; i<tasks.length; i++) {
+            for (let i = 0; i < tasks.length; i++) {
                 contentDOM.innerHTML += `
                 <div class="task-item flex-task">
                     <div class="checkbox">
-                        <input type="checkbox" name="checkbox" data-id="${tasks[i].getUniqueID()}" ${tasks[i].isChecked() ? "checked" : "unchecked"}>
-                        <label class="${tasks[i].isChecked() ? "crossed" : "uncrossed"}" for="checkbox">${tasks[i].getName()}</label>
+                        <input type="checkbox" name="checkbox" data-id="${tasks[
+                            i
+                        ].getUniqueID()}" ${tasks[i].isChecked() ? "checked" : "unchecked"}>
+                        <label class="${
+                            tasks[i].isChecked() ? "crossed" : "uncrossed"
+                        }" for="checkbox">${tasks[i].getName()}</label>
                     </div>
                     <div class="flex-task-items">
                         <div>${tasks[i].getPriority()}</div>
                         <div>${tasks[i].isTaskToday() ? "today" : tasks[i].getHowDistant()}</div>
                     </div>
-                    <div data-id="${tasks[i].getUniqueID()}" class="edit-btn-task"><i data-id="${tasks[i].getUniqueID()}" class="fa-regular fa-pen-to-square"></i></div>
-                    <div data-id="${tasks[i].getUniqueID()}" class="details-btn-task"><i data-id="${tasks[i].getUniqueID()}" class="fa-solid fa-circle-info"></i></div>
-                    <div class="close-btn-task"><i  id="${tasks[i].getUniqueID()}" class="fa-solid fa-circle-xmark"></i></div>
+                    <div data-id="${tasks[
+                        i
+                    ].getUniqueID()}" class="edit-btn-task"><i data-id="${tasks[
+                    i
+                ].getUniqueID()}" class="fa-regular fa-pen-to-square"></i></div>
+                    <div data-id="${tasks[
+                        i
+                    ].getUniqueID()}" class="details-btn-task"><i data-id="${tasks[
+                    i
+                ].getUniqueID()}" class="fa-solid fa-circle-info"></i></div>
+                    <div class="close-btn-task"><i  id="${tasks[
+                        i
+                    ].getUniqueID()}" class="fa-solid fa-circle-xmark"></i></div>
                 </div>
                 `;
             }
@@ -305,14 +350,13 @@ class DOM {
         this.removeAllHighlights();
         if (tab == "AllTab" || tab == undefined) {
             document.getElementById("all-tasks").parentNode.classList.add("active-project");
-        }
-        else if (tab == "HighPrioTab") {
-            document.getElementById("high-priority-tasks").parentNode.classList.add("active-project");
-        }
-        else if (tab == "DailyTab") {
+        } else if (tab == "HighPrioTab") {
+            document
+                .getElementById("high-priority-tasks")
+                .parentNode.classList.add("active-project");
+        } else if (tab == "DailyTab") {
             document.getElementById("daily-tasks").parentNode.classList.add("active-project");
-        }
-        else if (tab == "WeeklyTab") {
+        } else if (tab == "WeeklyTab") {
             document.getElementById("weekly-tasks").parentNode.classList.add("active-project");
         }
         this.addPriorityClasses();
@@ -326,82 +370,97 @@ class DOM {
     }
     static initRemoveForAllTasks(tab) {
         const removeTaskButtons = document.querySelectorAll(".close-btn-task");
-        removeTaskButtons.forEach(button => button.addEventListener("click", event => {
-            let ID = event.target.id;
-            let projects = this.wrapper.getProjectList();
-            for (let project of projects) {
-                let deletedTask = project.getTaskList().find(task => task.getUniqueID() == ID);
-                let index = project.getTaskList().indexOf(deletedTask);
-                if (deletedTask !== undefined) {
-                    project.getTaskList().splice(index, 1);
-                    this.renderAllTasks(tab);
-                    this.snackbar("Task removed successfully.");
+        removeTaskButtons.forEach((button) =>
+            button.addEventListener("click", (event) => {
+                let ID = event.target.id;
+                let projects = this.wrapper.getProjectList();
+                for (let project of projects) {
+                    let deletedTask = project
+                        .getTaskList()
+                        .find((task) => task.getUniqueID() == ID);
+                    let index = project.getTaskList().indexOf(deletedTask);
+                    if (deletedTask !== undefined) {
+                        project.getTaskList().splice(index, 1);
+                        this.renderAllTasks(tab);
+                        this.snackbar("Task removed successfully.");
+                    }
                 }
-            }
-        }))
+            })
+        );
     }
-    static renderProjectHeader() { // project name and details section render
+    static renderProjectHeader() {
+        // project name and details section render
         const projectHeaderNameDOM = document.getElementById("project-header-name");
         const projectHeaderDetailsDOM = document.getElementById("project-header-details");
         projectHeaderNameDOM.textContent = `
         ${this.getActiveProject().getName()}
-        `
+        `;
         projectHeaderDetailsDOM.textContent = `
-        ${this.getActiveProject().getDetails().charAt(0).toUpperCase() + this.getActiveProject().getDetails().slice(1)}
-        `
+        ${
+            this.getActiveProject().getDetails().charAt(0).toUpperCase() +
+            this.getActiveProject().getDetails().slice(1)
+        }
+        `;
     }
-    static renderProjectHeaderForAllTasks(tab) { // same with all tasks
+    static renderProjectHeaderForAllTasks(tab) {
+        // same with all tasks
         const projectHeaderNameDOM = document.getElementById("project-header-name");
         const projectHeaderDetailsDOM = document.getElementById("project-header-details");
         let text;
         if (tab == "AllTab" || tab == undefined) {
             text = "All Tasks";
-        }
-        else if (tab == "HighPrioTab") {
+        } else if (tab == "HighPrioTab") {
             text = "High Priority Tasks";
-        }
-        else if (tab == "DailyTab") {
+        } else if (tab == "DailyTab") {
             text = "Daily Tasks";
-        }
-        else if (tab == "WeeklyTab") {
+        } else if (tab == "WeeklyTab") {
             text = "Weekly Tasks";
         }
         projectHeaderNameDOM.textContent = text;
         projectHeaderDetailsDOM.textContent = `Active project: ${this.getActiveProject().getName()}`;
     }
-    static checkCheckbox() { // checkbox handler
+    static checkCheckbox() {
+        // checkbox handler
         const checkboxes = document.querySelectorAll("input[type=checkbox]");
-        checkboxes.forEach(checkbox => checkbox.addEventListener("change", event => {
-            let ID = event.target.dataset.id;
-            let checkedTask = this.getActiveProject().getTask(ID);
-            checkedTask.toggleChecked();
-            this.renderTasks();
-        }))
+        checkboxes.forEach((checkbox) =>
+            checkbox.addEventListener("change", (event) => {
+                let ID = event.target.dataset.id;
+                let checkedTask = this.getActiveProject().getTask(ID);
+                checkedTask.toggleChecked();
+                this.renderTasks();
+            })
+        );
     }
     static checkCheckboxForAllTasks(tab) {
         const checkboxes = document.querySelectorAll("input[type=checkbox]");
-        checkboxes.forEach(checkbox => checkbox.addEventListener("change", event => {
-            let ID = event.target.dataset.id;
-            let projects = this.wrapper.getProjectList();
-            for (let project of projects) {
-                let checkedTask = project.getTaskList().find(task => task.getUniqueID() == ID);
-                if (checkedTask !== undefined) {
-                    checkedTask.toggleChecked();
-                    this.renderAllTasks(tab);
+        checkboxes.forEach((checkbox) =>
+            checkbox.addEventListener("change", (event) => {
+                let ID = event.target.dataset.id;
+                let projects = this.wrapper.getProjectList();
+                for (let project of projects) {
+                    let checkedTask = project
+                        .getTaskList()
+                        .find((task) => task.getUniqueID() == ID);
+                    if (checkedTask !== undefined) {
+                        checkedTask.toggleChecked();
+                        this.renderAllTasks(tab);
+                    }
                 }
-            }
-        }))
+            })
+        );
     }
     static initEditTask() {
         const editButtons = document.querySelectorAll(".edit-btn-task");
         const editFormDOM = document.querySelector("#task-edit-form");
-        editButtons.forEach(button => button.addEventListener("click", event => {
-            let ID = event.target.dataset.id;
-            editFormDOM.dataset.id = ID;
-            editFormDOM.dataset.tab = "active-tab";
-            let task = this.getActiveProject().getTask(ID);
-            this.editTask(task);
-        }))
+        editButtons.forEach((button) =>
+            button.addEventListener("click", (event) => {
+                let ID = event.target.dataset.id;
+                editFormDOM.dataset.id = ID;
+                editFormDOM.dataset.tab = "active-tab";
+                let task = this.getActiveProject().getTask(ID);
+                this.editTask(task);
+            })
+        );
     }
     static editTask(task) {
         const taskEditDOM = document.getElementById("task-edit");
@@ -412,7 +471,8 @@ class DOM {
         priorityEditDOM.value = task.getPriority();
         this.openEditModal();
     }
-    static editTaskConfirm(task) { // this activates when submit only
+    static editTaskConfirm(task) {
+        // this activates when submit only
         const taskEditDOM = document.getElementById("task-edit");
         const taskEditDetailsDOM = document.getElementById("task-edit-details");
         const priorityEditDOM = document.getElementById("priority-edit");
@@ -423,7 +483,8 @@ class DOM {
         this.renderTasks();
         this.snackbar("Changes saved successfully.");
     }
-    static editTaskConfirmForAllTasks(task, tab) { // two parameters one with rendering all tabs, one for task properties
+    static editTaskConfirmForAllTasks(task, tab) {
+        // two parameters one with rendering all tabs, one for task properties
         const taskEditDOM = document.getElementById("task-edit");
         const taskEditDetailsDOM = document.getElementById("task-edit-details");
         const priorityEditDOM = document.getElementById("priority-edit");
@@ -437,37 +498,41 @@ class DOM {
     static initEditForAllTasks(tab) {
         const editButtons = document.querySelectorAll(".edit-btn-task");
         const editFormDOM = document.querySelector("#task-edit-form");
-        editButtons.forEach(button => button.addEventListener("click", event => {
-            let ID = event.target.dataset.id;
-            editFormDOM.dataset.id = ID;
-            editFormDOM.dataset.tab = tab;
-            let projects = this.wrapper.getProjectList();
-            for (let project of projects) {
-                let task = project.getTaskList().find(task => task.getUniqueID() == ID);
-                if (task !== undefined) {
-                    this.editTask(task);
+        editButtons.forEach((button) =>
+            button.addEventListener("click", (event) => {
+                let ID = event.target.dataset.id;
+                editFormDOM.dataset.id = ID;
+                editFormDOM.dataset.tab = tab;
+                let projects = this.wrapper.getProjectList();
+                for (let project of projects) {
+                    let task = project.getTaskList().find((task) => task.getUniqueID() == ID);
+                    if (task !== undefined) {
+                        this.editTask(task);
+                    }
                 }
-            }
-        }))
+            })
+        );
     }
     static initDetailsBtn() {
         const detailsButtons = document.querySelectorAll(".details-btn-task");
-        detailsButtons.forEach(button => button.addEventListener("click", event => {
-            let ID = event.target.dataset.id;
-            let projects = this.wrapper.getProjectList();
-            for (let project of projects) {
-                let task = project.getTaskList().find(task => task.getUniqueID() == ID);
-                if (task !== undefined) {
-                    this.showDetails(task);
+        detailsButtons.forEach((button) =>
+            button.addEventListener("click", (event) => {
+                let ID = event.target.dataset.id;
+                let projects = this.wrapper.getProjectList();
+                for (let project of projects) {
+                    let task = project.getTaskList().find((task) => task.getUniqueID() == ID);
+                    if (task !== undefined) {
+                        this.showDetails(task);
+                    }
                 }
-            }
-        }))
+            })
+        );
     }
     static showDetails(task) {
         const detailsModalContentDOM = document.querySelector("#details-modal-content");
         detailsModalContentDOM.innerHTML = `
             <div class="task-details">
-                <h3><i class="fa-solid fa-circle-check" style="color: var(--fifth-color);"></i> The task:</h3> 
+                <h3><i class="fa-solid fa-circle-check" style="color: var(--fifth-color);"></i> The task:</h3>
                 <p>${task.getName()}</p>
                 <h3><i class="fa-solid fa-circle-info" style="color: var(--fifth-color);"></i> About the task:</h3>
                 <p>${task.getDetails()}</p>
@@ -479,22 +544,22 @@ class DOM {
             `;
         this.openDetailsModal();
     }
-    static addPriorityClasses() { // for visuals
+    static addPriorityClasses() {
+        // for visuals
         const tasks = document.querySelectorAll(".flex-task-items");
-        tasks.forEach(task => {
+        tasks.forEach((task) => {
             let priority = task.childNodes[1].textContent;
             if (priority == "Low") {
                 task.parentNode.classList.add("border-left-low");
-            }
-            else if (priority == "Normal") {
+            } else if (priority == "Normal") {
                 task.parentNode.classList.add("border-left-normal");
+            } else if (priority == "High") {
+                task.parentNode.classList.add("border-left-high");
             }
-            else if (priority == "High") {
-                task.parentNode.classList.add("border-left-high")
-            }
-        })
+        });
     }
-    static counter() { // the counter for checked/unchecked tasks
+    static counter() {
+        // the counter for checked/unchecked tasks
         const allCounterDOM = document.getElementById("all-counter");
         const dailyCounterDOM = document.getElementById("daily-counter");
         const weeklyCounterDOM = document.getElementById("weekly-counter");
@@ -505,10 +570,18 @@ class DOM {
         let counterForHighPrio = 0;
         let projects = this.wrapper.getProjectList();
         for (let project of projects) {
-            counterForAll += project.getTaskList().filter(task => task.isChecked() == false).length;
-            counterForDaily += project.getDaily().filter(task => task.isChecked() == false).length;
-            counterForWeekly += project.getWeekly().filter(task => task.isChecked() == false).length;
-            counterForHighPrio += project.getHighPriority().filter(task => task.isChecked() == false).length;
+            counterForAll += project
+                .getTaskList()
+                .filter((task) => task.isChecked() == false).length;
+            counterForDaily += project
+                .getDaily()
+                .filter((task) => task.isChecked() == false).length;
+            counterForWeekly += project
+                .getWeekly()
+                .filter((task) => task.isChecked() == false).length;
+            counterForHighPrio += project
+                .getHighPriority()
+                .filter((task) => task.isChecked() == false).length;
         }
         allCounterDOM.textContent = counterForAll;
         dailyCounterDOM.textContent = counterForDaily;
@@ -531,7 +604,8 @@ class DOM {
             highPriorityCounterDOM.classList.add("hidden");
         }
     }
-    static hideHeaderProperties() { // if there is no task, this function enables/removes some features
+    static hideHeaderProperties() {
+        // if there is no task, this function enables/removes some features
         const headerPropertiesLeftDOM = document.querySelector(".project-properties-left");
         const headerPropertiesRightDOM = document.querySelector(".project-properties-right");
         const emojiDOM = document.querySelector(".emoji");
@@ -546,15 +620,17 @@ class DOM {
             emojiDOM.classList.add("hidden");
         }
     }
-    static snackbar(text) { // snackbar alert settings
+    static snackbar(text) {
+        // snackbar alert settings
         const snackbarDOM = document.getElementById("snackbar");
         snackbarDOM.textContent = text;
         snackbarDOM.classList.add("show");
         setTimeout(() => {
-            snackbarDOM.classList.remove("show"); 
+            snackbarDOM.classList.remove("show");
         }, 3000);
     }
-    static themeChanger() { // dark/light mode with local storage settings
+    static themeChanger() {
+        // dark/light mode with local storage settings
         const githubIconDOM = document.getElementsByClassName("github-icon");
         const nameOfThemeDOM = document.getElementById("theme-change");
         if (this.activeTheme == "dark") {
@@ -585,12 +661,33 @@ class DOM {
             this.snackbar("Dark theme activated.");
         }
     }
-    static createFillerExamples() { // filler project and tasks for default home page for first time loading
+    static createFillerExamples() {
+        // filler project and tasks for default home page for first time loading
         let projectExample = new Project("School", "school related stuff");
-        let taskExampleOne = new Task("remember how to program ideal gas law with MATLAB", "no idea", "Low", "14/12/2022");
-        let taskExampleTwo = new Task("get thermodynamics and kinetics notes", "from buse", "High", "16/12/2022");
-        let taskExampleThree = new Task("work on visuals of design presentation", "make it beautiful", "Normal", "01/01/2023");
-        let taskExampleFour = new Task("hey teacher", "leave them kids alone", "High", "01/01/2024");
+        let taskExampleOne = new Task(
+            "remember how to program ideal gas law with MATLAB",
+            "no idea",
+            "Low",
+            "14/12/2022"
+        );
+        let taskExampleTwo = new Task(
+            "get thermodynamics and kinetics notes",
+            "from buse",
+            "High",
+            "16/12/2022"
+        );
+        let taskExampleThree = new Task(
+            "work on visuals of design presentation",
+            "make it beautiful",
+            "Normal",
+            "01/01/2023"
+        );
+        let taskExampleFour = new Task(
+            "hey teacher",
+            "leave them kids alone",
+            "High",
+            "01/01/2024"
+        );
         taskExampleTwo.toggleChecked();
         taskExampleFour.toggleChecked();
         projectExample.uniqueID = 0;

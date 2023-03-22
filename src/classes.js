@@ -19,7 +19,7 @@ class Task {
         return this.uniqueID;
     }
     toggleChecked() {
-        this.checked = !(this.checked);
+        this.checked = !this.checked;
     }
     isChecked() {
         return this.checked;
@@ -43,7 +43,7 @@ class Task {
         let day = this.date.split("/")[0];
         let month = this.date.split("/")[1];
         let year = this.date.split("/")[2];
-        return `${month}/${day}/${year}`
+        return `${month}/${day}/${year}`;
     }
     getHowDistant() {
         let date = new Date(this.formatDate());
@@ -87,29 +87,34 @@ class Project {
     setTaskList(newTaskList) {
         this.taskList = newTaskList;
     }
-    getTask(ID) { // finds the task which has that unique id and returns it
-        return this.taskList.find(listItem => listItem.getUniqueID() == ID); 
+    getTask(ID) {
+        // finds the task which has that unique id and returns it
+        return this.taskList.find((listItem) => listItem.getUniqueID() == ID);
     }
     addTask(newTask) {
         this.taskList.push(newTask);
     }
-    removeTask(ID) { // same with find, but filter which hasn't got that unique id
-        this.taskList = this.taskList.filter(listItem => listItem.getUniqueID() !== ID);
+    removeTask(ID) {
+        // same with find, but filter which hasn't got that unique id
+        this.taskList = this.taskList.filter((listItem) => listItem.getUniqueID() !== ID);
     }
-    getHighPriority() { // high priority filter for the tab
-        return this.taskList.filter(listItem => listItem.getPriority() == "High");
+    getHighPriority() {
+        // high priority filter for the tab
+        return this.taskList.filter((listItem) => listItem.getPriority() == "High");
     }
-    getDaily() { // task date filter with date-fns isToday function
-        return this.taskList.filter(listItem => {
+    getDaily() {
+        // task date filter with date-fns isToday function
+        return this.taskList.filter((listItem) => {
             let date = new Date(listItem.formatDate());
             return isToday(toDate(date));
-        })
+        });
     }
-    getWeekly() { // same as daily but isThisWeek function
-        return this.taskList.filter(listItem => {
+    getWeekly() {
+        // same as daily but isThisWeek function
+        return this.taskList.filter((listItem) => {
             let date = new Date(listItem.formatDate());
             return isThisWeek(subDays(toDate(date), 1));
-        })
+        });
     }
 }
 
@@ -123,14 +128,15 @@ class Wrap {
     setProjectList(newProjectList) {
         this.projectList = newProjectList;
     }
-    getProject(ID) { // projects also have unique id's same with tasks and can be used for removing and getting the projects
-        return this.projectList.find(listItem => listItem.getUniqueID() == ID); 
+    getProject(ID) {
+        // projects also have unique id's same with tasks and can be used for removing and getting the projects
+        return this.projectList.find((listItem) => listItem.getUniqueID() == ID);
     }
     addProject(newProject) {
         this.projectList.push(newProject);
     }
     removeProject(ID) {
-        this.projectList = this.projectList.filter(listItem => listItem.getUniqueID() !== ID);
+        this.projectList = this.projectList.filter((listItem) => listItem.getUniqueID() !== ID);
     }
 }
 
